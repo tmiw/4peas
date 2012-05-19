@@ -1,0 +1,19 @@
+$if null recipes
+    _{MsgNoRecipes}
+$else
+    $forall recipe <- recipes
+        <div class="recipe-block">
+            <div class="recipe-name">
+                <a href=@{RecipeR (fst (fst recipe))}>
+                    #{recipeName (snd (fst recipe))}
+            <div class="recipe-author">
+                by 
+                <a>
+                    #{userIdent (snd (fst (snd recipe)))}
+            <div class="recipe-posted">
+                on #{prettyTime (recipePosted (snd (fst recipe)))}
+            <div class="recipe-description">
+                #{recipeDescription (snd (fst recipe))}
+            <div class="recipe-comments-container">
+                <div class="recipe-comments-count">
+                    #{snd (snd recipe)} comments

@@ -1,0 +1,17 @@
+body {
+    width: 100%;
+}
+
+.container  {
+    width: 768px;
+    background-color: #fcb481;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    background-color: white;
+}
+footer {
+    background-color: white;
+}

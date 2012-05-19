@@ -1,0 +1,47 @@
+User
+    ident Text
+    password Text Maybe
+    UniqueUser ident
+Email
+    email Text
+    user UserId Maybe
+    verkey Text Maybe
+    UniqueEmail email
+UserProfile
+    owner UserId
+    realName Text
+    UniqueUserProfile owner
+FriendList
+    follower UserId
+    following UserId
+    UniqueFriendList follower following
+Recipe
+    owner UserId
+    posted UTCTime
+    name Text
+    description Textarea
+Tag
+    tag Text
+    UniqueTag tag
+RecipeTag
+    recipe RecipeId
+    tag TagId
+Unit
+    unit Text
+    UniqueUnit unit
+Ingredient
+    recipe RecipeId
+    amount Double
+    ingredientUnit UnitId Maybe
+    name Text
+RecipeStep
+    recipe RecipeId
+    step Textarea
+    UniqueRecipeStep recipe step
+RecipeComment
+    recipe RecipeId
+    owner UserId
+    posted UTCTime
+    text Textarea
+ 
+ -- By default this file is used in Model.hs (which is imported by Foundation.hs)
