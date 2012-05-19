@@ -3,3 +3,15 @@ dist
 .static-cache
 static/tmp
 *.sqlite3
+
+# OS or Editor folders
+.DS_Store
+._*
+Thumbs.db
+.cache
+.project
+.settings
+.tmproj
+nbproject
+*.sublime-project
+*.sublime-workspace
