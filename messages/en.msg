@@ -4,3 +4,4 @@ RecipeAuthorBy: by
 RecipePostedOn: on
 RecipeCommentsWord: comments
 HomeIntro: Social cooking with friends.
+Tags: Tags:

@@ -11,6 +11,8 @@ import Import
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
 
+data RecipeUIEntry a b c d = RecipeUIEntry a b c d
+
 getHomeR :: Handler RepHtml
 getHomeR = do
     recipes <- runDB $ selectList [] [Desc RecipePosted] >>= mapM (\(Entity rId r) -> do
@@ -18,8 +20,11 @@ getHomeR = do
             o <- get404 oId
             return $ (oId, o)
         from <- go $ recipeOwner r
-        comments <- selectList [RecipeCommentRecipe ==. rId] []
-        return ((rId, r), (from, length comments))
+        commentCount <- count [RecipeCommentRecipe ==. rId]
+        recipeTags <- selectList [RecipeTagRecipe ==. rId] [] >>= mapM (\(Entity _ t) -> return $ recipeTagTag t)
+        tags <- selectList [TagId <-. recipeTags] []
+        return $ (RecipeUIEntry (rId, r) from commentCount tags)
+        --return ((rId, r), (from, length comments))
         )
     defaultLayout $ do
         aDomId <- lift newIdent

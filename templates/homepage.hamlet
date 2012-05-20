@@ -3,19 +3,25 @@ _{MsgHomeIntro}
 $if null recipes
     _{MsgNoRecipes}
 $else
-    $forall recipe <- recipes
+    $forall RecipeUIEntry recipe from commentCount tags <- recipes
         <div class="recipe-block">
             <div class="recipe-name">
-                <a href=@{RecipeR (fst (fst recipe))}>
-                    #{recipeName (snd (fst recipe))}
+                <a href=@{RecipeR (fst recipe)}>
+                    #{recipeName (snd recipe)}
             <div class="recipe-author">
-                _{MsgRecipeAuthorBy}
+                _{MsgRecipeAuthorBy} 
                 <a>
-                    #{userIdent (snd (fst (snd recipe)))}
+                    #{userIdent (snd from)}
             <div class="recipe-posted">
-                _{MsgRecipePostedOn} #{prettyTime (recipePosted (snd (fst recipe)))}
+                _{MsgRecipePostedOn} #{prettyTime (recipePosted (snd recipe))}
             <div class="recipe-description">
-                #{recipeDescription (snd (fst recipe))}
+                #{recipeDescription (snd recipe)}
             <div class="recipe-comments-container">
                 <div class="recipe-comments-count">
-                    #{snd (snd recipe)} _{MsgRecipeCommentsWord}
+                    #{commentCount} _{MsgRecipeCommentsWord}
+            <div class="recipe-tags">
+                _{MsgTags}
+                $forall Entity tId t <- tags
+                    <span class="recipe-tag">
+                        <a>
+                            #{tagTag t} 
