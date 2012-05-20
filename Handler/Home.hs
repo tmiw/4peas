@@ -11,12 +11,6 @@ import Import
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
 
-import Data.Time
-import System.Locale
-
-prettyTime :: UTCTime -> String
-prettyTime = formatTime defaultTimeLocale "%B %e, %Y %r"
-
 getHomeR :: Handler RepHtml
 getHomeR = do
     recipes <- runDB $ selectList [] [Desc RecipePosted] >>= mapM (\(Entity rId r) -> do

@@ -11,7 +11,20 @@ body {
 
 header {
     background-color: white;
+    text-align: center;
 }
 footer {
     background-color: white;
+}
+
+div .recipe-block {
+    border: 1px solid black;
+}
+
+div .recipe-name {
+    font-weight: bold;
+}
+
+div .recipe-author {
+    font-style: italic;
 }

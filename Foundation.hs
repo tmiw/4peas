@@ -8,6 +8,7 @@ module Foundation
     , Form
     , maybeAuth
     , requireAuth
+    , prettyTime
     , module Settings
     , module Model
     ) where
@@ -32,6 +33,12 @@ import Text.Jasmine (minifym)
 import Web.ClientSession (getKey)
 import Text.Hamlet (hamletFile)
 import Data.Text (Text)
+import Data.Time
+import System.Locale
+
+-- Emits string representation of the passed in time value.
+prettyTime :: UTCTime -> String
+prettyTime = formatTime defaultTimeLocale "%B %e, %Y %r"
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application

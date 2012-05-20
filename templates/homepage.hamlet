@@ -1,3 +1,5 @@
+_{MsgHomeIntro}
+
 $if null recipes
     _{MsgNoRecipes}
 $else
@@ -7,13 +9,13 @@ $else
                 <a href=@{RecipeR (fst (fst recipe))}>
                     #{recipeName (snd (fst recipe))}
             <div class="recipe-author">
-                by 
+                _{MsgRecipeAuthorBy}
                 <a>
                     #{userIdent (snd (fst (snd recipe)))}
             <div class="recipe-posted">
-                on #{prettyTime (recipePosted (snd (fst recipe)))}
+                _{MsgRecipePostedOn} #{prettyTime (recipePosted (snd (fst recipe)))}
             <div class="recipe-description">
                 #{recipeDescription (snd (fst recipe))}
             <div class="recipe-comments-container">
                 <div class="recipe-comments-count">
-                    #{snd (snd recipe)} comments
+                    #{snd (snd recipe)} _{MsgRecipeCommentsWord}
