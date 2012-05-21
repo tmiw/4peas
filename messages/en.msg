@@ -5,3 +5,6 @@ RecipePostedOn: on
 RecipeCommentsWord: comments
 HomeIntro: Social cooking with friends.
 Tags: Tags:
+HomePageTitle: for peas (and cooking)
+PreviousPage: Previous
+NextPage: Next

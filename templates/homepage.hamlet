@@ -25,3 +25,15 @@ $else
                     <span class="recipe-tag">
                         <a>
                             #{tagTag t} 
+                            
+<div class="previous-page">
+    $if isNotFirstPage pageNumber 
+        <a href=@{HomePageR prevPageNumber}>
+            _{MsgPreviousPage}
+    $else
+
+<div class="next-page">
+    $if isNotLastPage recipes
+        <a href=@{HomePageR nextPageNumber}>
+            _{MsgNextPage}
+    $else

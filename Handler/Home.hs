@@ -11,11 +11,14 @@ import Import
 -- functions. You can spread them across multiple files if you are so
 -- inclined, or create a single monolithic file.
 
-data RecipeUIEntry a b c d = RecipeUIEntry a b c d
+data RecipeUIEntry = RecipeUIEntry (RecipeId, Recipe) (UserId, User) Int [Entity Tag]
 
-getHomeR :: Handler RepHtml
-getHomeR = do
-    recipes <- runDB $ selectList [] [Desc RecipePosted] >>= mapM (\(Entity rId r) -> do
+resultsPerPage :: Int
+resultsPerPage = 10
+
+getResults :: Int -> Handler [RecipeUIEntry]
+getResults pageNumber = do
+    runDB $ selectList [] [Desc RecipePosted, LimitTo resultsPerPage, OffsetBy $ (pageNumber - 1) * resultsPerPage] >>= mapM (\(Entity rId r) -> do
         let go oId = do
             o <- get404 oId
             return $ (oId, o)
@@ -24,12 +27,23 @@ getHomeR = do
         recipeTags <- selectList [RecipeTagRecipe ==. rId] [] >>= mapM (\(Entity _ t) -> return $ recipeTagTag t)
         tags <- selectList [TagId <-. recipeTags] []
         return $ (RecipeUIEntry (rId, r) from commentCount tags)
-        --return ((rId, r), (from, length comments))
         )
+
+getHomePageR :: Int -> Handler RepHtml
+getHomePageR pageNumber = do
+    recipes <- getResults pageNumber
     defaultLayout $ do
         aDomId <- lift newIdent
-        setTitle "for peas (and cooking)"
+        setTitleI $ MsgHomePageTitle
         $(widgetFile "homepage")
+    where
+        isNotFirstPage pn = if (pn > 1) then True else False
+        isNotLastPage r = if ((length r) < resultsPerPage) then False else True
+        nextPageNumber = pageNumber + 1
+        prevPageNumber = pageNumber - 1
+        
+getHomeR :: Handler RepHtml
+getHomeR = getHomePageR 1
 
 getRecipeR :: RecipeId -> Handler RepHtml
 getRecipeR recipeId = do
