@@ -16,9 +16,9 @@ data RecipeUIEntry = RecipeUIEntry (RecipeId, Recipe) (UserId, User) Int [Entity
 resultsPerPage :: Int
 resultsPerPage = 10
 
-getResults :: Int -> Handler [RecipeUIEntry]
-getResults pageNumber = do
-    runDB $ selectList [] [Desc RecipePosted, LimitTo resultsPerPage, OffsetBy $ (pageNumber - 1) * resultsPerPage] >>= mapM (\(Entity rId r) -> do
+getResults :: Int -> [Filter Recipe] -> Handler [RecipeUIEntry]
+getResults pageNumber conditions = do
+    runDB $ selectList conditions [Desc RecipePosted, LimitTo resultsPerPage, OffsetBy $ (pageNumber - 1) * resultsPerPage] >>= mapM (\(Entity rId r) -> do
         let go oId = do
             o <- get404 oId
             return $ (oId, o)
@@ -31,7 +31,7 @@ getResults pageNumber = do
 
 getHomePageR :: Int -> Handler RepHtml
 getHomePageR pageNumber = do
-    recipes <- getResults pageNumber
+    recipes <- getResults pageNumber []
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgHomePageTitle
@@ -41,7 +41,29 @@ getHomePageR pageNumber = do
         isNotLastPage r = if ((length r) < resultsPerPage) then False else True
         nextPageNumber = pageNumber + 1
         prevPageNumber = pageNumber - 1
-        
+
+getHomeTagPageR :: Text -> Int -> Handler RepHtml
+getHomeTagPageR tag pageNumber = do
+    tagId <- runDB $ do
+        tmpTag <- selectFirst [TagTag ==. tag] []
+        return $ getTagId tmpTag
+    recipeTags <- runDB $ selectList [RecipeTagTag ==. tagId] [] >>= mapM (\(Entity _ rt) -> return $ recipeTagRecipe rt)
+    recipes <- getResults pageNumber [RecipeId <-. recipeTags]
+    defaultLayout $ do
+        aDomId <- lift newIdent
+        setTitleI $ MsgHomePageTitle
+        $(widgetFile "homepage")
+    where
+        isNotFirstPage pn = if (pn > 1) then True else False
+        isNotLastPage r = if ((length r) < resultsPerPage) then False else True
+        nextPageNumber = pageNumber + 1
+        prevPageNumber = pageNumber - 1
+        getTagId (Just (Entity tId _)) = tId
+        getTagId Nothing = error "Invalid tag provided."
+
+getHomeTagR :: Text -> Handler RepHtml
+getHomeTagR tag = getHomeTagPageR tag 1
+
 getHomeR :: Handler RepHtml
 getHomeR = getHomePageR 1
 
