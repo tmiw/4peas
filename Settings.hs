@@ -22,6 +22,7 @@ import Data.Text (Text)
 import Data.Yaml
 import Control.Applicative
 import Settings.Development
+import Network.HTTP.Types (Ascii)
 
 -- | Which Persistent backend this site is using.
 type PersistConfig = SqliteConf
@@ -60,9 +61,15 @@ widgetFile = if development then Yesod.Default.Util.widgetFileReload
 data Extra = Extra
     { extraCopyright :: Text
     , extraAnalytics :: Maybe Text -- ^ Google Analytics
+    , extraFacebookAppName :: Ascii
+    , extraFacebookAppId :: Integer
+    , extraFacebookSecret :: Ascii
     } deriving Show
 
 parseExtra :: DefaultEnv -> Object -> Parser Extra
 parseExtra _ o = Extra
     <$> o .:  "copyright"
     <*> o .:? "analytics"
+    <*> o .:  "facebookAppName"
+    <*> o .:  "facebookAppId"
+    <*> o .:  "facebookSecret"

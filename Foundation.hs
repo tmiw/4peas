@@ -19,6 +19,7 @@ import Yesod.Static
 import Yesod.Auth
 import Yesod.Auth.BrowserId
 import Yesod.Auth.GoogleEmail
+import Yesod.Auth.Facebook
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
 import Yesod.Logger (Logger, logMsg, formatLogText)
@@ -35,6 +36,8 @@ import Text.Hamlet (hamletFile)
 import Data.Text (Text)
 import Data.Time
 import System.Locale
+import qualified Facebook as FB
+import qualified Data.ByteString.Char8 as BS
 
 -- Emits string representation of the passed in time value.
 prettyTime :: UTCTime -> String
@@ -92,6 +95,7 @@ instance Yesod App where
 
     defaultLayout widget = do
         master <- getYesod
+        maid <- maybeAuthId
         mmsg <- getMessage
 
         -- We break up the default layout into two components:
@@ -153,7 +157,11 @@ instance YesodAuth App where
                 fmap Just $ insert $ User (credsIdent creds) Nothing
 
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authBrowserId, authGoogleEmail]
+    authPlugins p = [authBrowserId, authGoogleEmail, authFacebook (FB.Credentials fbAppName fbAppId fbAppSecret) ["user_about_me"]]
+        where getExtraSettings = appExtra $ settings p 
+              fbAppName = extraFacebookAppName getExtraSettings
+              fbAppId = BS.pack $ show $ extraFacebookAppId getExtraSettings
+              fbAppSecret = extraFacebookSecret getExtraSettings
 
     authHttpManager = httpManager
 

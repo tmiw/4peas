@@ -23,7 +23,14 @@
           document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <body>
         <div class="container">
-            <header><img src=@{StaticR img_logo_png}>
+            <header>
+                <img src=@{StaticR img_logo_png}>
+                $maybe _ <- maid
+                    <p>
+                        <a href=@{AuthR LogoutR}>Logout
+                $nothing
+                    <p>
+                        <a href=@{AuthR LoginR}>Login
             <div id="main" role="main">
               ^{pageBody pc}
             <footer>
