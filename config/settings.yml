@@ -3,9 +3,9 @@ Default: &defaults
   port: 3000
   approot: "http://dev.4pe.as:3000"
   copyright: Copyright (C) 2012 Mooneer Salem. 
-  #facebookAppName: "4pe.as"
-  #facebookAppId: 123456789
-  #facebookSecret: "abc123"
+  facebookAppName: "4pe.as"
+  facebookAppId: 123456789
+  facebookSecret: "abc123"
   #analytics: UA-YOURCODE
 
 Development:

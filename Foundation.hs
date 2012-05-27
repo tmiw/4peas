@@ -130,6 +130,16 @@ instance Yesod App where
 
     -- Place Javascript at bottom of the body tag so the rest of the page loads first
     jsLoader _ = BottomOfBody
+    
+    -- List all pages that need authentication.
+    isAuthorized NewRecipeR _ = isLoggedIn
+    isAuthorized _ _ = return Authorized
+
+isLoggedIn = do
+    mu <- maybeAuthId
+    return $ case mu of
+        Nothing -> AuthenticationRequired
+        Just _ -> Authorized
 
 -- How to run database actions.
 instance YesodPersist App where

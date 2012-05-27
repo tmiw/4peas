@@ -8,3 +8,4 @@ Tags: Tags:
 HomePageTitle: for peas (and cooking)
 PreviousPage: Previous
 NextPage: Next
+NewRecipePageTitle: new recipe
