@@ -9,3 +9,7 @@ HomePageTitle: for peas (and cooking)
 PreviousPage: Previous
 NextPage: Next
 NewRecipePageTitle: new recipe
+
+RecipeDescriptionFormField: Description:
+RecipeStepsFormField: Steps:
+AddStepButton: Add Step
