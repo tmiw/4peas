@@ -2,3 +2,8 @@ function addStep(id, name)
 {
     $('#' + id).append("<li><input type=\"text\" name=\"" + name + "\" value=\"\" /></li>");
 }
+
+function addTag(id, name)
+{
+    $('#' + id).append("<li><input type=\"text\" name=\"" + name + "\" value=\"\" /></li>");
+}
