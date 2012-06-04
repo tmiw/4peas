@@ -4,7 +4,10 @@ module Handler.NewRecipe where
 
 import Import
 import qualified Data.Text as T
+import Data.Text.Read (double)
 import Data.Time (getCurrentTime)
+import Database.Persist.Store
+import Data.Int (Int64)
 import Yesod.Auth
 
 getNewRecipeR :: Handler RepHtml
@@ -23,6 +26,7 @@ postNewRecipeR = do
     case result of
         FormSuccess recipe -> do
             rId <- runDB $ insert $ Recipe authId curTime (Handler.NewRecipe.recipeName recipe) (Handler.NewRecipe.recipeDescription recipe)
+            _ <- runDB $ insertAllIngredients rId $ recipeIngredients recipe
             _ <- runDB $ insertAllSteps rId $ recipeSteps recipe
             _ <- runDB $ insertAllTags rId $ recipeTags recipe
             redirect $ RecipeR rId
@@ -34,8 +38,12 @@ postNewRecipeR = do
     where
         insertAllSteps _ [] = return []
         insertAllSteps rId (x:xs) = do
-             _ <- insert $ RecipeStep rId x
-             insertAllSteps rId xs
+            _ <- insert $ RecipeStep rId x
+            insertAllSteps rId xs
+        insertAllIngredients _ [] = return []
+        insertAllIngredients rId (x:xs) = do
+            _ <- insert $ Ingredient rId (ingredientFieldAmount x) (ingredientFieldUnit x) (ingredientFieldDescription x)
+            insertAllIngredients rId xs
         insertAllTags _ [] = return []
         insertAllTags rId (x:xs) = do
             tagId <- findOrInsertTag x
@@ -92,10 +100,59 @@ recipeTagsField = Field
 <input type="button" name=#{idAttr}-add value="xyz" onClick="addTag('#{idAttr}', '#{nameAttr}')";>
 |]
     }
+
+validateIngredientList :: [Text] -> GHandler sub master (Either (SomeMessage master) (Maybe [NewRecipeIngredient]))
+validateIngredientList rawVals =
+    if all lengthNonZero rawVals then do
+        return $ Right $ Just $ makeDataObject $ rawVals
+    else
+        if length rawVals > 0 then
+            return $ Left $ "error"
+        else
+            return $ Right $ Nothing
+    where
+        lengthNonZero v = (T.length v) > 0
+        makeDataObject :: [Text] -> [NewRecipeIngredient]
+        makeDataObject [] = []
+        makeDataObject (amount:unit:desc:xs) =
+            (NewRecipeIngredient (toDoubleType amount) (makeUnitId unit) desc) : makeDataObject xs
+        makeUnitId v | T.length v > 0 = Just $ toIdType v
+                     | otherwise    = Nothing
+        toIdType v = Key $ PersistInt64 $ (read (T.unpack v) :: Int64)
+        toDoubleType v = case (double v) of
+            Left errStr -> error errStr
+            Right (val, _) -> val
         
+recipeIngredientsField :: Field sub master [NewRecipeIngredient]
+recipeIngredientsField = Field
+    { fieldParse = validateIngredientList
+    , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
+<ol id=#{idAttr} class="recipeIngredients">
+    $case eResult
+        $of Left errVal
+            <li>#{errVal}
+        $of Right listVal
+            $forall val <- listVal
+                <li>
+                    <input name=#{nameAttr} type="text" value=#{ingredientFieldAmount val} size="3">
+                    <select name=#{nameAttr}>
+                        <option value="0" selected>
+                    <input name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
+<input type="button" name=#{idAttr}-add value="xyz" onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
+|]
+    }
+
+data NewRecipeIngredient = NewRecipeIngredient
+    { ingredientFieldAmount :: Double
+    , ingredientFieldUnit :: Maybe UnitId
+    , ingredientFieldDescription :: Text
+    }
+    deriving Show
+
 data NewRecipe = NewRecipe
     { recipeName :: Text
     , recipeDescription :: Textarea
+    , recipeIngredients :: [NewRecipeIngredient]
     , recipeSteps :: [Text]
     , recipeTags :: [Text]
     }
@@ -105,5 +162,6 @@ recipeForm :: Html -> MForm App App (FormResult NewRecipe, Widget)
 recipeForm = renderDivs $ NewRecipe
     <$> areq textField "Name" Nothing
     <*> areq textareaField "Description" Nothing
+    <*> areq recipeIngredientsField "Ingredients" Nothing
     <*> areq recipeStepsField "Steps" Nothing
     <*> areq recipeTagsField "Tags" Nothing

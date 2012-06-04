@@ -7,3 +7,14 @@ function addTag(id, name)
 {
     $('#' + id).append("<li><input type=\"text\" name=\"" + name + "\" value=\"\" /></li>");
 }
+
+function addIngredient(id, name)
+{
+    $('#' + id).append("\
+    <li>\
+        <input name=\"" + name + "\" type=\"text\" value=\"\" size=\"3\" />\
+        <select name=\"" + name + "\">\
+            <option value=\"0\" selected />\
+        </select>\
+        <input name=\"" + name + "\" type=\"text\" value=\"\" />")
+}
