@@ -12,4 +12,5 @@ NewRecipePageTitle: new recipe
 
 RecipeDescriptionFormField: Description:
 RecipeStepsFormField: Steps:
+RecipeIngredientsFormField: Ingredients:
 AddStepButton: Add Step

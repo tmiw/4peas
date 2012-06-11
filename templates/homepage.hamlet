@@ -20,7 +20,7 @@ $else
                 <div class="recipe-comments-count">
                     #{commentCount} _{MsgRecipeCommentsWord}
             <div class="recipe-tags">
-                _{MsgTags}
+                _{MsgTags} #
                 $forall Entity _ t <- tags
                     <span class="recipe-tag">
                         <a href=@{HomeTagR (tagTag t)}>

@@ -1,1 +1,51 @@
-recipe entry here
+<div class="recipe-block">
+    <div class="recipe-name">
+        #{recipeName recipe}
+    <div class="recipe-author">
+        _{MsgRecipeAuthorBy} 
+        <a>
+            #{userIdent from}
+    <div class="recipe-posted">
+        _{MsgRecipePostedOn} #{prettyTime (recipePosted recipe)}
+    <div class="recipe-description-title">
+        _{MsgRecipeDescriptionFormField}
+    <div class="recipe-description">
+        #{recipeDescription recipe}
+        
+    <div class="recipe-ingredients-title">
+        _{MsgRecipeIngredientsFormField}
+    <ul class="recipe-ingredients">
+        $forall (amount, unit, name) <- ingredients
+            <li class="recipe-ingredient">
+                $maybe unitValue <- unit
+                    #{amount} #{unitUnit unitValue} #{name}
+                $nothing
+                    #{amount} #{name}
+    
+    <div class="recipe-steps-title">
+        _{MsgRecipeStepsFormField}
+    <ol class="recipe-steps">
+        $forall Entity _ step <- steps
+            <li class="recipe-step">
+                #{recipeStepStep step}
+                
+    <div class="recipe-comments-container">
+        <div class="recipe-comments-count">
+            #{commentCount} _{MsgRecipeCommentsWord}
+        <ol class="recipe-comments">
+            $forall Entity _ c <- comments
+                <li class="recipe-comment">
+                    <div class="recipe-author">
+                        author
+                    <div class="recipe-posted">
+                        #{prettyTime (recipeCommentPosted c)}
+                    <div class="recipe-body">
+                        #{recipeCommentText c}
+                        
+    <div class="recipe-tags">
+        _{MsgTags} #
+        $forall Entity _ t <- tags
+            <span class="recipe-tag">
+                <a href=@{HomeTagR (tagTag t)}>
+                    #{tagTag t}
+                \

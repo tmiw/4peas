@@ -69,12 +69,20 @@ getHomeR = getHomePageR 1
 
 getRecipeR :: RecipeId -> Handler RepHtml
 getRecipeR recipeId = do
-    (recipe, ingredients, steps, comments) <- runDB $ do
+    (recipe, from, ingredients, steps, comments, commentCount, tags) <- runDB $ do
         recipe <- get404 recipeId
-        ingredients <- selectList [IngredientRecipe ==. recipeId] []
+        from <- get404 $ recipeOwner recipe
+        ingredients <- selectList [IngredientRecipe ==. recipeId] [] >>= mapM (\(Entity _ i) -> do
+            unit <- case (ingredientIngredientUnit i) of
+                Nothing -> return Nothing
+                Just u -> get $ u
+            return (ingredientAmount i, unit, ingredientName i))
         steps <- selectList [RecipeStepRecipe ==. recipeId] []
         comments <- selectList [RecipeCommentRecipe ==. recipeId] [Asc RecipeCommentPosted]
-        return (recipe, ingredients, steps, comments)
+        commentCount <- count [RecipeCommentRecipe ==. recipeId]
+        recipeTags <- selectList [RecipeTagRecipe ==. recipeId] [] >>= mapM (\(Entity _ t) -> return $ recipeTagTag t)
+        tags <- selectList [TagId <-. recipeTags] []
+        return (recipe, from, ingredients, steps, comments, commentCount, tags)
     defaultLayout $ do
         setTitleI $ MsgRecipeTitle $ recipeName recipe
         $(widgetFile "recipe-entry")
