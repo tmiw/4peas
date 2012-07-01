@@ -11,5 +11,6 @@
 /tag/#Text/#Int HomeTagPageR GET
 
 /recipe/#RecipeId RecipeR GET
+/comment/#RecipeId CommentR POST
 
 /new NewRecipeR GET POST

@@ -35,12 +35,16 @@
         <ol class="recipe-comments">
             $forall Entity _ c <- comments
                 <li class="recipe-comment">
-                    <div class="recipe-author">
+                    <div class="recipe-comment-author">
                         author
-                    <div class="recipe-posted">
+                    <div class="recipe-comment-posted">
                         #{prettyTime (recipeCommentPosted c)}
-                    <div class="recipe-body">
+                    <div class="recipe-comment-body">
                         #{recipeCommentText c}
+        <div class="recipe-comments-form">
+            <form method="post" action=@{CommentR recipeId} enctype=#{enctype}>
+                ^{widget}
+                <input type="submit">
                         
     <div class="recipe-tags">
         _{MsgTags} #
