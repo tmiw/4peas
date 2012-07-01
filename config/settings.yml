@@ -1,7 +1,7 @@
 Default: &defaults
   host: "*4" # any IPv4 host
   port: 3000
-  approot: "http://dev.4pe.as:3000"
+  approot: "http://4pe.as"
   copyright: Copyright (C) 2012 Mooneer Salem. 
   facebookAppName: "4pe.as"
   facebookAppId: 123456789
@@ -9,6 +9,7 @@ Default: &defaults
   #analytics: UA-YOURCODE
 
 Development:
+  approot: "http://localhost:3000"
   <<: *defaults
 
 Testing:
@@ -19,4 +20,5 @@ Staging:
 
 Production:
   #approot: "http://www.example.com"
+  port: 80
   <<: *defaults
