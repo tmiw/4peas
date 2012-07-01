@@ -14,6 +14,11 @@ commentForm :: Html -> MForm App App (FormResult NewComment, Widget)
 commentForm = renderDivs $ NewComment
     <$> areq textareaField "Comment" Nothing
 
+getCommentR :: RecipeId -> Handler RepHtml
+getCommentR recipe = do
+    -- This handles the case where the user isn't logged in when posting the comment.
+    redirect $ RecipeR recipe
+
 postCommentR :: RecipeId -> Handler RepHtml
 postCommentR recipe = do
     ((result, widget), enctype) <- runFormPost commentForm

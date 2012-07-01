@@ -42,10 +42,13 @@
                     <div class="recipe-comment-body">
                         #{recipeCommentText c}
         <div class="recipe-comments-form">
-            <form method="post" action=@{CommentR recipeId} enctype=#{enctype}>
-                ^{widget}
-                <input type="submit">
-                        
+            $maybe aId <- authId
+                <form method="post" action=@{CommentR recipeId} enctype=#{enctype}>
+                    ^{widget}
+                    <input type="submit">
+            $nothing
+                _{MsgNotLoggedInComment}
+                
     <div class="recipe-tags">
         _{MsgTags} #
         $forall Entity _ t <- tags

@@ -7,6 +7,7 @@ module Foundation
     , Widget
     , Form
     , maybeAuth
+    , maybeAuthId
     , requireAuth
     , prettyTime
     , module Settings

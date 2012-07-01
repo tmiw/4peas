@@ -85,6 +85,7 @@ getRecipeR recipeId = do
         tags <- selectList [TagId <-. recipeTags] []
         return (recipe, from, ingredients, steps, comments, commentCount, tags)
     (widget, enctype) <- generateFormPost commentForm
+    authId <- maybeAuthId
     defaultLayout $ do
         setTitleI $ MsgRecipeTitle $ recipeName recipe
         $(widgetFile "recipe-entry")
