@@ -14,3 +14,5 @@ RecipeDescriptionFormField: Description:
 RecipeStepsFormField: Steps:
 RecipeIngredientsFormField: Ingredients:
 AddStepButton: Add Step
+
+NotLoggedInComment: You must be logged in to post comments.
