@@ -16,3 +16,6 @@ RecipeIngredientsFormField: Ingredients:
 AddStepButton: Add Step
 
 NotLoggedInComment: You must be logged in to post comments.
+
+LoginLink: Login
+LogoutLink: Logout
