@@ -32,6 +32,8 @@
                         About
                     $maybe _ <- maid
                         <li class="nav-bar-item">
+                            <a href=@{NewRecipeR}>New Recipe
+                        <li class="nav-bar-item">
                             <a href=@{AuthR LogoutR}>Logout
                     $nothing
                         <li class="nav-bar-item">
