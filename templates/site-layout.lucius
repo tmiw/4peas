@@ -38,6 +38,19 @@ div #message {
     border: 1px solid black;
 }
 
+.formInput label {
+    display: block;
+    width: 120px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.formInput input {
+    display: block;
+    float: none;
+    margin-bottom: 10px;
+}
+
 footer {
     background-color: white;
 }
