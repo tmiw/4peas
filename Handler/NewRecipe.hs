@@ -76,7 +76,10 @@ recipeStepsField = Field
 <ol id=#{idAttr} class="recipeSteps">
     $case eResult
         $of Left errVal
-            <li>#{errVal}
+            $if T.null errVal
+                
+            $else
+                <li>#{errVal}
         $of Right listVal
             $forall val <- listVal
                 <li>
@@ -92,7 +95,10 @@ recipeTagsField = Field
 <ol id=#{idAttr} class="recipeTags">
     $case eResult
         $of Left errVal
-            <li>#{errVal}
+            $if T.null errVal
+                
+            $else
+                <li>#{errVal}
         $of Right listVal
             $forall val <- listVal
                 <li>
@@ -130,7 +136,10 @@ recipeIngredientsField = Field
 <ol id=#{idAttr} class="recipeIngredients">
     $case eResult
         $of Left errVal
-            <li>#{errVal}
+            $if T.null errVal
+                
+            $else
+                <li>#{errVal}
         $of Right listVal
             $forall val <- listVal
                 <li>
