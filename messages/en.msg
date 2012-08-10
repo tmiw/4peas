@@ -15,6 +15,7 @@ RecipeDescriptionFormField: Description:
 RecipeStepsFormField: Steps:
 RecipeIngredientsFormField: Ingredients:
 RecipeTagsFormField: Tags:
+CommentFormField: Comment:
 AddStepButton: Add Step
 AddIngredientButton: Add Ingredient
 AddTagButton: Add Tag

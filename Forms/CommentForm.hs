@@ -13,4 +13,4 @@ data NewComment = NewComment
 
 commentForm :: Html -> MForm App App (FormResult NewComment, Widget)
 commentForm = renderDivs $ NewComment
-    <$> areq textareaField "Comment" Nothing
+    <$> areq textareaField (fieldSettingsLabel MsgCommentFormField) Nothing
