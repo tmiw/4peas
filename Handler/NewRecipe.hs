@@ -172,8 +172,8 @@ data NewRecipe = NewRecipe
 
 recipeForm :: Html -> MForm App App (FormResult NewRecipe, Widget)
 recipeForm = renderDivs $ NewRecipe
-    <$> areq textField "Name" Nothing
-    <*> areq textareaField "Description" Nothing
-    <*> areq recipeIngredientsField "Ingredients" Nothing
-    <*> areq recipeStepsField "Steps" Nothing
-    <*> areq recipeTagsField "Tags" Nothing
+    <$> areq textField (fieldSettingsLabel MsgRecipeNameFormField) Nothing
+    <*> areq textareaField (fieldSettingsLabel MsgRecipeDescriptionFormField) Nothing
+    <*> areq recipeIngredientsField (fieldSettingsLabel MsgRecipeIngredientsFormField) Nothing
+    <*> areq recipeStepsField (fieldSettingsLabel MsgRecipeStepsFormField) Nothing
+    <*> areq recipeTagsField (fieldSettingsLabel MsgRecipeTagsFormField) Nothing

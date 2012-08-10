@@ -10,9 +10,11 @@ PreviousPage: Previous
 NextPage: Next
 NewRecipePageTitle: new recipe
 
+RecipeNameFormField: Name:
 RecipeDescriptionFormField: Description:
 RecipeStepsFormField: Steps:
 RecipeIngredientsFormField: Ingredients:
+RecipeTagsFormField: Tags:
 AddStepButton: Add Step
 
 NotLoggedInComment: You must be logged in to post comments.
