@@ -16,6 +16,8 @@ RecipeStepsFormField: Steps:
 RecipeIngredientsFormField: Ingredients:
 RecipeTagsFormField: Tags:
 AddStepButton: Add Step
+AddIngredientButton: Add Ingredient
+AddTagButton: Add Tag
 
 NotLoggedInComment: You must be logged in to post comments.
 

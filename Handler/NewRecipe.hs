@@ -69,7 +69,7 @@ validateTextList rawVals =
         filterVals vals = filter lengthNonZero vals
         lengthNonZero v = (T.length v) > 0
 
-recipeStepsField :: Field sub master [Text]
+recipeStepsField :: (RenderMessage master AppMessage) => Field sub master [Text]
 recipeStepsField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
@@ -85,11 +85,11 @@ recipeStepsField = Field
                 $forall val <- listVal
                     <li>
                         <input name=#{nameAttr} type="text" value=#{val}>
-    <input type="button" name=#{idAttr}-add value="xyz" onClick="addStep('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddStepButton} onClick="addStep('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
-recipeTagsField :: Field sub master [Text]
+recipeTagsField :: (RenderMessage master AppMessage) => Field sub master [Text]
 recipeTagsField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
@@ -105,7 +105,7 @@ recipeTagsField = Field
                 $forall val <- listVal
                     <li>
                         <input name=#{nameAttr} type="text" value=#{val}>
-    <input type="button" name=#{idAttr}-add value="xyz" onClick="addTag('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddTagButton} onClick="addTag('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
@@ -131,7 +131,7 @@ validateIngredientList rawVals =
             Left errStr -> error errStr
             Right (val, _) -> val
         
-recipeIngredientsField :: Field sub master [NewRecipeIngredient]
+recipeIngredientsField :: (RenderMessage master AppMessage) => Field sub master [NewRecipeIngredient]
 recipeIngredientsField = Field
     { fieldParse = validateIngredientList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
@@ -150,7 +150,7 @@ recipeIngredientsField = Field
                         <select class="dyn_list_element" name=#{nameAttr}>
                             <option value="0" selected>
                         <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
-    <input type="button" name=#{idAttr}-add value="xyz" onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddIngredientButton} onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
