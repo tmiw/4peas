@@ -12,9 +12,9 @@ function addIngredient(id, name)
 {
     $('#' + id).append("\
     <li>\
-        <input name=\"" + name + "\" type=\"text\" value=\"\" size=\"3\" />\
-        <select name=\"" + name + "\">\
+        <input class=\"dyn_list_element_quantity\" name=\"" + name + "\" type=\"text\" value=\"\" />\
+        <select class=\"dyn_list_element\" name=\"" + name + "\">\
             <option value=\"0\" selected />\
         </select>\
-        <input name=\"" + name + "\" type=\"text\" value=\"\" />")
+        <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />")
 }

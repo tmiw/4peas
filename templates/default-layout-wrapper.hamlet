@@ -27,7 +27,7 @@
                 <img class="logo" src=@{StaticR img_logo_png}>
                 <ul class="nav-bar">
                     <li class="nav-bar-item">
-                        Home
+                        <a href=@{HomeR}>Home
                     <li class="nav-bar-item">
                         About
                     $maybe _ <- maid

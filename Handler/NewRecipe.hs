@@ -73,18 +73,19 @@ recipeStepsField :: Field sub master [Text]
 recipeStepsField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
-<ol id=#{idAttr} class="recipeSteps">
-    $case eResult
-        $of Left errVal
-            $if T.null errVal
+<div class="dyn_list">
+    <ol id=#{idAttr} class="recipeSteps">
+        $case eResult
+            $of Left errVal
+                $if T.null errVal
                 
-            $else
-                <li>#{errVal}
-        $of Right listVal
-            $forall val <- listVal
-                <li>
-                    <input name=#{nameAttr} type="text" value=#{val}>
-<input type="button" name=#{idAttr}-add value="xyz" onClick="addStep('#{idAttr}', '#{nameAttr}')";>
+                $else
+                    <li>#{errVal}
+            $of Right listVal
+                $forall val <- listVal
+                    <li>
+                        <input name=#{nameAttr} type="text" value=#{val}>
+    <input type="button" name=#{idAttr}-add value="xyz" onClick="addStep('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
@@ -92,18 +93,19 @@ recipeTagsField :: Field sub master [Text]
 recipeTagsField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
-<ol id=#{idAttr} class="recipeTags">
-    $case eResult
-        $of Left errVal
-            $if T.null errVal
+<div class="dyn_list">
+    <ol id=#{idAttr} class="recipeTags">
+        $case eResult
+            $of Left errVal
+                $if T.null errVal
                 
-            $else
-                <li>#{errVal}
-        $of Right listVal
-            $forall val <- listVal
-                <li>
-                    <input name=#{nameAttr} type="text" value=#{val}>
-<input type="button" name=#{idAttr}-add value="xyz" onClick="addTag('#{idAttr}', '#{nameAttr}')";>
+                $else
+                    <li>#{errVal}
+            $of Right listVal
+                $forall val <- listVal
+                    <li>
+                        <input name=#{nameAttr} type="text" value=#{val}>
+    <input type="button" name=#{idAttr}-add value="xyz" onClick="addTag('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
@@ -133,21 +135,22 @@ recipeIngredientsField :: Field sub master [NewRecipeIngredient]
 recipeIngredientsField = Field
     { fieldParse = validateIngredientList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
-<ol id=#{idAttr} class="recipeIngredients">
-    $case eResult
-        $of Left errVal
-            $if T.null errVal
-                
-            $else
-                <li>#{errVal}
-        $of Right listVal
-            $forall val <- listVal
-                <li>
-                    <input name=#{nameAttr} type="text" value=#{ingredientFieldAmount val} size="3">
-                    <select name=#{nameAttr}>
-                        <option value="0" selected>
-                    <input name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
-<input type="button" name=#{idAttr}-add value="xyz" onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
+<div class="dyn_list">
+    <ol id=#{idAttr} class="recipeIngredients">
+        $case eResult
+            $of Left errVal
+                $if T.null errVal
+                    
+                $else
+                    <li>#{errVal}
+            $of Right listVal
+                $forall val <- listVal
+                    <li>
+                        <input class="dyn_list_element_quantity" name=#{nameAttr} type="text" value=#{ingredientFieldAmount val}>
+                        <select class="dyn_list_element" name=#{nameAttr}>
+                            <option value="0" selected>
+                        <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
+    <input type="button" name=#{idAttr}-add value="xyz" onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 

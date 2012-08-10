@@ -46,9 +46,27 @@ div #message {
 }
 
 .formInput input {
+    /*display: block;*/
+    float: none;
+    margin-bottom: 10px;
+}
+
+div .dyn_list {
+    margin-left: 120px;
     display: block;
     float: none;
     margin-bottom: 10px;
+}
+
+.dyn_list_element {
+    display: inline;
+}
+
+/* Special dyn_list_element rules for ingredient quantity. */
+
+.dyn_list_element_quantity {
+    display: inline;
+    width: 30px;
 }
 
 footer {
