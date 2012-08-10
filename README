@@ -1,5 +1,6 @@
 This is the code for the (soon to be launched) 4pe.as website. Code is under BSD license for the time being, but this may change.
 
 To run: 
-    1. cabal install && 4peas Development
-    2. chrome http://localhost:3000/
+    1. Check settings in config/settings.yml.
+    2. cabal install && 4peas Development
+    3. chrome http://localhost:3000/
