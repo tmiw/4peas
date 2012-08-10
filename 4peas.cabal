@@ -29,7 +29,7 @@ library
                      Settings.StaticFiles
                      Settings.Development
                      Handler.Home
-                     Handler.NewRecipe
+                     Handler.Recipe
                      Handler.Comments
                      Forms.RecipeForm
 

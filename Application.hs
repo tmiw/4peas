@@ -20,7 +20,7 @@ import Network.HTTP.Conduit (newManager, def)
 -- Import all relevant handler modules here.
 -- Don't forget to add new modules to your cabal file!
 import Handler.Home
-import Handler.NewRecipe
+import Handler.Recipe
 import Handler.Comments
 
 -- This line actually creates our YesodSite instance. It is the second half

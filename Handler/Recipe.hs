@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, TypeFamilies, QuasiQuotes,
              TemplateHaskell, MultiParamTypeClasses #-}
-module Handler.NewRecipe where
+module Handler.Recipe where
 
 import Import
 import Data.Time (getCurrentTime)
