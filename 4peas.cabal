@@ -32,6 +32,7 @@ library
                      Handler.Recipe
                      Handler.Comments
                      Forms.RecipeForm
+                     Forms.CommentForm
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT
