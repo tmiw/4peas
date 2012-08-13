@@ -40,8 +40,16 @@ getNewRecipeR = do
 
 getEditRecipeR :: RecipeId -> Handler RepHtml
 getEditRecipeR rId = do
-    recipe <- runDB $ get404 rId
-    (widget, enctype) <- generateFormPost $ RF.recipeForm $ Just recipe
+    (recipe, ingredients, steps, tags) <- runDB $ do
+        recipe <- get404 rId
+        ingredients <- selectList [IngredientRecipe ==. rId] [] >>= mapM (\(Entity _ i) -> do
+            return $ RF.NewRecipeIngredient (ingredientAmount i) (ingredientIngredientUnit i) (ingredientName i))
+        steps <- selectList [RecipeStepRecipe ==. rId] [] >>= mapM(\(Entity _ t) -> do
+            return $ recipeStepStep t)
+        recipeTags <- selectList [RecipeTagRecipe ==. rId] [] >>= mapM (\(Entity _ t) -> return $ recipeTagTag t)
+        tags <- selectList [TagId <-. recipeTags] [] >>= mapM(\(Entity _ t) -> return $ tagTag t)
+        return (recipe, ingredients, steps, tags)
+    (widget, enctype) <- generateFormPost $ RF.recipeForm $ Just (RF.NewRecipe (recipeName recipe) (recipeDescription recipe) ingredients steps tags)
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgNewRecipePageTitle

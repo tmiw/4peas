@@ -2,8 +2,8 @@
              TemplateHaskell, MultiParamTypeClasses #-}
 module Forms.RecipeForm
     ( recipeForm,
-      NewRecipeIngredient,
-      NewRecipe,
+      NewRecipeIngredient(NewRecipeIngredient),
+      NewRecipe(NewRecipe),
       Forms.RecipeForm.recipeName,
       Forms.RecipeForm.recipeDescription,
       recipeIngredients,
@@ -138,13 +138,16 @@ maybeCallFunc :: Maybe a -> (a -> b) -> Maybe b
 maybeCallFunc Nothing _ = Nothing
 maybeCallFunc (Just obj) fn = Just (fn obj)
 
-recipeForm :: Maybe Recipe -> Html -> MForm App App (FormResult NewRecipe, Widget)
+recipeForm :: Maybe NewRecipe -> Html -> MForm App App (FormResult NewRecipe, Widget)
 recipeForm r = renderDivs $ NewRecipe
     <$> areq textField (fieldSettingsLabel MsgRecipeNameFormField) (recipeNameFieldValue r)
     <*> areq textareaField (fieldSettingsLabel MsgRecipeDescriptionFormField) (recipeDescriptionFieldValue r)
-    <*> areq recipeIngredientsField (fieldSettingsLabel MsgRecipeIngredientsFormField) Nothing
-    <*> areq recipeStepsField (fieldSettingsLabel MsgRecipeStepsFormField) Nothing
-    <*> areq recipeTagsField (fieldSettingsLabel MsgRecipeTagsFormField) Nothing
+    <*> areq recipeIngredientsField (fieldSettingsLabel MsgRecipeIngredientsFormField) (recipeIngredientsFieldValue r)
+    <*> areq recipeStepsField (fieldSettingsLabel MsgRecipeStepsFormField) (recipeStepsFieldValue r)
+    <*> areq recipeTagsField (fieldSettingsLabel MsgRecipeTagsFormField) (recipeTagsFieldValue r)
     where
-        recipeNameFieldValue recipe = maybeCallFunc recipe Import.recipeName
-        recipeDescriptionFieldValue recipe = maybeCallFunc recipe Import.recipeDescription
+        recipeNameFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeName
+        recipeDescriptionFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeDescription
+        recipeIngredientsFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeIngredients
+        recipeStepsFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeSteps
+        recipeTagsFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeTags
