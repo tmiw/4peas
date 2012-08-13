@@ -9,15 +9,24 @@ import qualified Forms.RecipeForm as F
 
 getNewRecipeR :: Handler RepHtml
 getNewRecipeR = do
-    (widget, enctype) <- generateFormPost F.recipeForm
+    (widget, enctype) <- generateFormPost $ F.recipeForm Nothing
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgNewRecipePageTitle
         $(widgetFile "new-recipe")
-        
+
+getEditRecipeR :: RecipeId -> Handler RepHtml
+getEditRecipeR rId = do
+    recipe <- runDB $ get404 rId
+    (widget, enctype) <- generateFormPost $ F.recipeForm $ Just recipe
+    defaultLayout $ do
+        aDomId <- lift newIdent
+        setTitleI $ MsgNewRecipePageTitle
+        $(widgetFile "new-recipe")
+                
 postNewRecipeR :: Handler RepHtml
 postNewRecipeR = do
-    ((result, widget), enctype) <- runFormPost F.recipeForm
+    ((result, widget), enctype) <- runFormPost $ F.recipeForm Nothing
     authId <- requireAuthId
     curTime <- liftIO getCurrentTime
     case result of

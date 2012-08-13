@@ -134,10 +134,17 @@ data NewRecipe = NewRecipe
     }
     deriving Show
 
-recipeForm :: Html -> MForm App App (FormResult NewRecipe, Widget)
-recipeForm = renderDivs $ NewRecipe
-    <$> areq textField (fieldSettingsLabel MsgRecipeNameFormField) Nothing
-    <*> areq textareaField (fieldSettingsLabel MsgRecipeDescriptionFormField) Nothing
+maybeCallFunc :: Maybe a -> (a -> b) -> Maybe b
+maybeCallFunc Nothing _ = Nothing
+maybeCallFunc (Just obj) fn = Just (fn obj)
+
+recipeForm :: Maybe Recipe -> Html -> MForm App App (FormResult NewRecipe, Widget)
+recipeForm r = renderDivs $ NewRecipe
+    <$> areq textField (fieldSettingsLabel MsgRecipeNameFormField) (recipeNameFieldValue r)
+    <*> areq textareaField (fieldSettingsLabel MsgRecipeDescriptionFormField) (recipeDescriptionFieldValue r)
     <*> areq recipeIngredientsField (fieldSettingsLabel MsgRecipeIngredientsFormField) Nothing
     <*> areq recipeStepsField (fieldSettingsLabel MsgRecipeStepsFormField) Nothing
     <*> areq recipeTagsField (fieldSettingsLabel MsgRecipeTagsFormField) Nothing
+    where
+        recipeNameFieldValue recipe = maybeCallFunc recipe Import.recipeName
+        recipeDescriptionFieldValue recipe = maybeCallFunc recipe Import.recipeDescription
