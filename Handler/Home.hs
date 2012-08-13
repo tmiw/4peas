@@ -2,7 +2,6 @@
 module Handler.Home where
 
 import Import
-import qualified Forms.CommentForm as CF
 
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
@@ -67,28 +66,6 @@ getHomeTagR tag = getHomeTagPageR tag 1
 
 getHomeR :: Handler RepHtml
 getHomeR = getHomePageR 1
-
-getRecipeR :: RecipeId -> Handler RepHtml
-getRecipeR recipeId = do
-    (recipe, from, ingredients, steps, comments, commentCount, tags) <- runDB $ do
-        recipe <- get404 recipeId
-        from <- get404 $ recipeOwner recipe
-        ingredients <- selectList [IngredientRecipe ==. recipeId] [] >>= mapM (\(Entity _ i) -> do
-            unit <- case (ingredientIngredientUnit i) of
-                Nothing -> return Nothing
-                Just u -> get $ u
-            return (ingredientAmount i, unit, ingredientName i))
-        steps <- selectList [RecipeStepRecipe ==. recipeId] []
-        comments <- selectList [RecipeCommentRecipe ==. recipeId] [Asc RecipeCommentPosted]
-        commentCount <- count [RecipeCommentRecipe ==. recipeId]
-        recipeTags <- selectList [RecipeTagRecipe ==. recipeId] [] >>= mapM (\(Entity _ t) -> return $ recipeTagTag t)
-        tags <- selectList [TagId <-. recipeTags] []
-        return (recipe, from, ingredients, steps, comments, commentCount, tags)
-    (widget, enctype) <- generateFormPost CF.commentForm
-    authId <- maybeAuthId
-    defaultLayout $ do
-        setTitleI $ MsgRecipeTitle $ recipeName recipe
-        $(widgetFile "recipe-entry")
 
 --getHomeR = do
 --    (formWidget, formEnctype) <- generateFormPost sampleForm
