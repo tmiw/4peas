@@ -1,0 +1,3 @@
+<form method="post" action=@{ConfirmDeleteRecipeR rId}>
+    _{MsgConfirmDeletePrompt}
+    <input type="submit">

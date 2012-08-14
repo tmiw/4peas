@@ -39,6 +39,14 @@ getNewRecipeR = do
         setTitleI $ MsgNewRecipePageTitle
         $(widgetFile "new-recipe")
 
+getDeleteRecipeR :: RecipeId -> Handler RepHtml
+getDeleteRecipeR rId = do
+    authId <- requireAuthId
+    defaultLayout $ do
+        aDomId <- lift newIdent
+        setTitleI $ MsgDeleteRecipePageTitle
+        $(widgetFile "delete-recipe")
+                
 getEditRecipeR :: RecipeId -> Handler RepHtml
 getEditRecipeR rId = do
     authId <- requireAuthId
@@ -57,6 +65,15 @@ getEditRecipeR rId = do
         setTitleI $ MsgEditRecipePageTitle
         $(widgetFile "edit-recipe")
 
+postConfirmDeleteRecipeR :: RecipeId -> Handler RepHtml
+postConfirmDeleteRecipeR rId = do
+    runDB $ do
+        _ <- deleteWhere [IngredientRecipe ==. rId]
+        _ <- deleteWhere [RecipeStepRecipe ==. rId]
+        _ <- deleteWhere [RecipeTagRecipe ==. rId]
+        delete rId
+    redirect $ HomeR
+    
 postEditRecipeR :: RecipeId -> Handler RepHtml
 postEditRecipeR rId = do
     ((result, widget), enctype) <- runFormPost $ RF.recipeForm Nothing

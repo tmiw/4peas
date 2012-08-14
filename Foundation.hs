@@ -137,6 +137,8 @@ instance Yesod App where
     -- List all pages that need authentication.
     isAuthorized NewRecipeR _ = isLoggedIn
     isAuthorized (EditRecipeR rId) _ = ownRecipeOnly rId
+    isAuthorized (DeleteRecipeR rId) _ = ownRecipeOnly rId
+    isAuthorized (ConfirmDeleteRecipeR rId) _ = ownRecipeOnly rId
     isAuthorized _ _ = return Authorized
 
 ownRecipeOnly rId = do

@@ -10,6 +10,7 @@ PreviousPage: Previous
 NextPage: Next
 NewRecipePageTitle: new recipe
 EditRecipePageTitle: edit recipe
+DeleteRecipePageTitle: delete recipe
 
 RecipeNameFormField: Name:
 RecipeDescriptionFormField: Description:
@@ -27,3 +28,5 @@ LoginLink: Login
 LogoutLink: Logout
 
 NoneYet: None yet.
+
+ConfirmDeletePrompt: Are you sure you want to delete this recipe?
