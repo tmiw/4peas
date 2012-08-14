@@ -136,15 +136,18 @@ instance Yesod App where
     
     -- List all pages that need authentication.
     isAuthorized NewRecipeR _ = isLoggedIn
-    isAuthorized (EditRecipeR rId) _ = do
-        mauth <- maybeAuth
-        case mauth of
-            Nothing -> return AuthenticationRequired
-            Just (Entity user _) -> do
-                recipeList <- runDB $ selectList [RecipeOwner ==. user, RecipeId ==. rId] []
-                if (length recipeList) > 0 then return Authorized else return AuthenticationRequired
+    isAuthorized (EditRecipeR rId) _ = ownRecipeOnly rId
     isAuthorized _ _ = return Authorized
 
+ownRecipeOnly rId = do
+    mauth <- maybeAuth
+    case mauth of
+        Nothing -> return AuthenticationRequired
+        Just (Entity user _) -> do
+            recipeList <- runDB $ selectList [RecipeOwner ==. user, RecipeId ==. rId] []
+            if (length recipeList) > 0 then return Authorized else return AuthenticationRequired
+
+isLoggedIn :: YesodAuth m => GHandler s m AuthResult 
 isLoggedIn = do
     mu <- maybeAuthId
     return $ case mu of
