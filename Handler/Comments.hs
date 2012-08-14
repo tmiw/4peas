@@ -13,7 +13,7 @@ getCommentR recipe = do
 
 postCommentR :: RecipeId -> Handler RepHtml
 postCommentR recipe = do
-    ((result, widget), enctype) <- runFormPost F.commentForm
+    ((result, _), _) <- runFormPost F.commentForm
     curTime <- liftIO getCurrentTime
     authId <- requireAuthId
     case result of
@@ -21,4 +21,4 @@ postCommentR recipe = do
             _ <- runDB $ insert $ RecipeComment recipe authId curTime (F.commentText comment)
             redirect $ RecipeR recipe
         _ ->
-            undefined -- TODO
+            redirect $ RecipeR recipe

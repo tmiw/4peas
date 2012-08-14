@@ -42,7 +42,7 @@
                     <div class="recipe-comment-body">
                         #{recipeCommentText c}
         <div class="recipe-comments-form">
-            $maybe aId <- authId
+            $maybe _ <- authId
                 <form method="post" action=@{CommentR recipeId} enctype=#{enctype}>
                     ^{widget}
                     <input type="submit">

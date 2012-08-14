@@ -86,6 +86,8 @@ validateIngredientList rawVals =
         lengthNonZero v = (T.length v) > 0
         makeDataObject :: [Text] -> [NewRecipeIngredient]
         makeDataObject [] = []
+        makeDataObject [_] = undefined -- should not reach this
+        makeDataObject [_, _] = undefined -- nor this
         makeDataObject (amount:unit:desc:xs) =
             (NewRecipeIngredient (toDoubleType amount) (makeUnitId unit) desc) : makeDataObject xs
         makeUnitId v | T.length v > 0 = Just $ toIdType v
