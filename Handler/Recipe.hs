@@ -32,6 +32,7 @@ getRecipeR recipeId = do
         
 getNewRecipeR :: Handler RepHtml
 getNewRecipeR = do
+    authId <- requireAuthId
     (widget, enctype) <- generateFormPost $ RF.recipeForm Nothing
     defaultLayout $ do
         aDomId <- lift newIdent
@@ -40,6 +41,7 @@ getNewRecipeR = do
 
 getEditRecipeR :: RecipeId -> Handler RepHtml
 getEditRecipeR rId = do
+    authId <- requireAuthId
     (recipe, ingredients, steps, tags) <- runDB $ do
         recipe <- get404 rId
         ingredients <- selectList [IngredientRecipe ==. rId] [] >>= mapM (\(Entity _ i) -> do
