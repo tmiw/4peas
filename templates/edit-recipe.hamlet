@@ -1,0 +1,4 @@
+<form method="post" action=@{EditRecipeR rId} enctype=#{enctype}>
+    <div class="formInput">
+        ^{widget}
+    <input type="submit">

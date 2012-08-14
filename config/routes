@@ -14,4 +14,4 @@
 /comment/#RecipeId CommentR GET POST
 
 /new NewRecipeR GET POST
-/recipe/edit/#RecipeId EditRecipeR GET
+/recipe/edit/#RecipeId EditRecipeR GET POST

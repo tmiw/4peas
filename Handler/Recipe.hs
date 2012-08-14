@@ -52,9 +52,30 @@ getEditRecipeR rId = do
     (widget, enctype) <- generateFormPost $ RF.recipeForm $ Just (RF.NewRecipe (recipeName recipe) (recipeDescription recipe) ingredients steps tags)
     defaultLayout $ do
         aDomId <- lift newIdent
-        setTitleI $ MsgNewRecipePageTitle
-        $(widgetFile "new-recipe")
-                
+        setTitleI $ MsgEditRecipePageTitle
+        $(widgetFile "edit-recipe")
+
+postEditRecipeR :: RecipeId -> Handler RepHtml
+postEditRecipeR rId = do
+    ((result, widget), enctype) <- runFormPost $ RF.recipeForm Nothing
+    authId <- requireAuthId
+    case result of
+        FormSuccess recipe -> do
+            _ <- runDB $ do
+                update rId [RecipeName =. (RF.recipeName recipe), RecipeDescription =. (RF.recipeDescription recipe)]
+                deleteWhere [IngredientRecipe ==. rId]
+                deleteWhere [RecipeStepRecipe ==. rId]
+                deleteWhere [RecipeTagRecipe ==. rId]
+                _ <- insertAllIngredients rId $ RF.recipeIngredients recipe
+                _ <- insertAllSteps rId $ RF.recipeSteps recipe
+                insertAllTags rId $ RF.recipeTags recipe
+            redirect $ RecipeR rId
+        _ ->
+            defaultLayout $ do
+                aDomId <- lift newIdent
+                setTitleI $ MsgEditRecipePageTitle
+                $(widgetFile "edit-recipe")
+                    
 postNewRecipeR :: Handler RepHtml
 postNewRecipeR = do
     ((result, widget), enctype) <- runFormPost $ RF.recipeForm Nothing
@@ -62,33 +83,44 @@ postNewRecipeR = do
     curTime <- liftIO getCurrentTime
     case result of
         FormSuccess recipe -> do
-            rId <- runDB $ insert $ Recipe authId curTime (RF.recipeName recipe) (RF.recipeDescription recipe)
-            _ <- runDB $ insertAllIngredients rId $ RF.recipeIngredients recipe
-            _ <- runDB $ insertAllSteps rId $ RF.recipeSteps recipe
-            _ <- runDB $ insertAllTags rId $ RF.recipeTags recipe
+            rId <- runDB $ do
+                r <- insert $ Recipe authId curTime (RF.recipeName recipe) (RF.recipeDescription recipe)
+                _ <- insertAllIngredients r $ RF.recipeIngredients recipe
+                _ <- insertAllSteps r $ RF.recipeSteps recipe
+                _ <- insertAllTags r $ RF.recipeTags recipe
+                return r
             redirect $ RecipeR rId
         _ ->
             defaultLayout $ do
                 aDomId <- lift newIdent
                 setTitleI $ MsgNewRecipePageTitle
                 $(widgetFile "new-recipe")
-    where
-        insertAllSteps _ [] = return []
-        insertAllSteps rId (x:xs) = do
-            _ <- insert $ RecipeStep rId x
-            insertAllSteps rId xs
-        insertAllIngredients _ [] = return []
-        insertAllIngredients rId (x:xs) = do
-            _ <- insert $ Ingredient rId (RF.ingredientFieldAmount x) (RF.ingredientFieldUnit x) (RF.ingredientFieldDescription x)
-            insertAllIngredients rId xs
-        insertAllTags _ [] = return []
-        insertAllTags rId (x:xs) = do
-            tagId <- findOrInsertTag x
-            _ <- insert $ RecipeTag rId tagId
-            insertAllTags rId xs
-        findOrInsertTag tag = do
-            maybeTag <- selectFirst [TagTag ==. tag] []
-            case maybeTag of
-                Just (Entity eId _) -> return eId
-                Nothing ->
-                    insert $ Tag tag
+
+-- Utility functions for edit/add. Type definitions are to quiet warnings
+-- and come from ghc itself.
+insertAllSteps :: PersistStore b m => RecipeId -> [Text] -> b m [a]
+insertAllSteps _ [] = return []
+insertAllSteps rId (x:xs) = do
+    _ <- insert $ RecipeStep rId x
+    insertAllSteps rId xs
+    
+insertAllIngredients :: PersistStore b m => RecipeId -> [RF.NewRecipeIngredient] -> b m [a]
+insertAllIngredients _ [] = return []
+insertAllIngredients rId (x:xs) = do
+    _ <- insert $ Ingredient rId (RF.ingredientFieldAmount x) (RF.ingredientFieldUnit x) (RF.ingredientFieldDescription x)
+    insertAllIngredients rId xs
+
+insertAllTags :: PersistQuery backend m => Key backend (RecipeGeneric backend) -> [Text] -> backend m [a]
+insertAllTags _ [] = return []
+insertAllTags rId (x:xs) = do
+    tagId <- findOrInsertTag x
+    _ <- insert $ RecipeTag rId tagId
+    insertAllTags rId xs
+
+findOrInsertTag :: PersistQuery backend m => Text -> backend m (Key backend (TagGeneric backend))
+findOrInsertTag tag = do
+    maybeTag <- selectFirst [TagTag ==. tag] []
+    case maybeTag of
+        Just (Entity eId _) -> return eId
+        Nothing ->
+            insert $ Tag tag

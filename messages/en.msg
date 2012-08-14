@@ -9,6 +9,7 @@ HomePageTitle: for peas (and cooking)
 PreviousPage: Previous
 NextPage: Next
 NewRecipePageTitle: new recipe
+EditRecipePageTitle: edit recipe
 
 RecipeNameFormField: Name:
 RecipeDescriptionFormField: Description:
