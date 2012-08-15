@@ -13,7 +13,7 @@
 /recipe/#RecipeId RecipeR GET
 /comment/#RecipeId CommentR GET POST
 
-/new NewRecipeR GET POST
+/recipe/new NewRecipeR GET POST
 /recipe/edit/#RecipeId EditRecipeR GET POST
 /recipe/delete/#RecipeId DeleteRecipeR GET
 /recipe/delete/#RecipeId/confirm ConfirmDeleteRecipeR POST
