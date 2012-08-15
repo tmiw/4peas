@@ -71,6 +71,7 @@ postConfirmDeleteRecipeR rId = do
         _ <- deleteWhere [IngredientRecipe ==. rId]
         _ <- deleteWhere [RecipeStepRecipe ==. rId]
         _ <- deleteWhere [RecipeTagRecipe ==. rId]
+        _ <- deleteWhere [RecipeCommentRecipe ==. rId]
         delete rId
     redirect $ HomeR
     
