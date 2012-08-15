@@ -11,6 +11,7 @@ NextPage: Next
 NewRecipePageTitle: new recipe
 EditRecipePageTitle: edit recipe
 DeleteRecipePageTitle: delete recipe
+LoginPageTitle: login
 
 RecipeNameFormField: Name:
 RecipeDescriptionFormField: Description:

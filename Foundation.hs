@@ -190,6 +190,10 @@ instance YesodAuth App where
 
     authHttpManager = httpManager
 
+    loginHandler = defaultLayout $ do
+        setTitleI $ MsgLoginPageTitle
+        $(widgetFile "login")
+    
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
 instance RenderMessage App FormMessage where
