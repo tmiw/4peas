@@ -190,9 +190,13 @@ instance YesodAuth App where
 
     authHttpManager = httpManager
 
-    loginHandler = defaultLayout $ do
-        setTitleI $ MsgLoginPageTitle
-        $(widgetFile "login")
+    loginHandler = do 
+        tm <- getRouteToMaster
+        master <- getYesod
+        bId <- widgetToPageContent $ apLogin authBrowserId tm
+        defaultLayout $ do
+            setTitleI $ MsgLoginPageTitle
+            $(widgetFile "login")
     
 -- This instance is required to use forms. You can modify renderMessage to
 -- achieve customized and internationalized form validation messages.
