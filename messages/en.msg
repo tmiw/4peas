@@ -12,6 +12,7 @@ NewRecipePageTitle: new recipe
 EditRecipePageTitle: edit recipe
 DeleteRecipePageTitle: delete recipe
 LoginPageTitle: login
+LoginRequired: You must be logged in to continue. Please log in with one of the following services:
 
 RecipeNameFormField: Name:
 RecipeDescriptionFormField: Description:

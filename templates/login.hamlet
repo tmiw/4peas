@@ -1,9 +1,12 @@
 <div .login-options>                                                            
     _{MsgLoginRequired}
-    <form method="get" action="@{AuthR forwardUrl}" .button .google>                                                                                           
-        <input type="hidden" name="openid_identifier" value="https://www.google.com/accounts/o8/id">
-        <input type="image" src="@{StaticR img_google_gif}" value="Login via Google">
-    <a href="@{AuthR facebookLogin}" .button .facebook>                         
-        <img src="@{StaticR img_facebook_gif}" value="Login via Facebook">          
-    <h3>&mdash; OR &mdash;                                                      
-    ^{pageBody bId}
+    <ul>
+        <li>
+            <form method="get" action="@{AuthR forwardUrl}" .button .google>                                                                                           
+                <input type="hidden" name="openid_identifier" value="https://www.google.com/accounts/o8/id">
+                <input type="image" src="@{StaticR img_google_gif}" value="Login via Google">
+        <li>
+            <a href="@{AuthR facebookLogin}" .button .facebook>                         
+                <img src="@{StaticR img_facebook_gif}" value="Login via Facebook">                                                                
+        <li>
+            ^{pageBody bId}
