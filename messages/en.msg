@@ -3,7 +3,7 @@ RecipeTitle title@Text: recipe view: #{title}
 RecipeAuthorBy: by
 RecipePostedOn: on
 RecipeCommentsWord: comments
-HomeIntro: Social cooking with friends.
+HomeIntro: 4peas is a website dedicated to cooking with your friends. Submit recipes and comment on them, it's that simple.
 Tags: Tags:
 HomePageTitle: for peas (and cooking)
 PreviousPage: Previous

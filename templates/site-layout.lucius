@@ -31,11 +31,14 @@ header {
 }
 
 div #message {
-    /*color: red;*/
-    width: auto;
-    font-weight: bold;
-    text-align: center;
+    background-color: lightgreen;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
     border: 1px solid black;
+    text-align: center;
 }
 
 .formInput label {
@@ -75,6 +78,9 @@ footer {
 
 div .recipe-block {
     border: 1px solid black;
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 div .recipe-name {

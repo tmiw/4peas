@@ -42,6 +42,8 @@
                         Help
 
             <div id="main" role="main">
+              <h3>
+                #{pageTitle pc}
               ^{pageBody pc}
             <footer>
                 #{extraCopyright $ appExtra $ settings master}

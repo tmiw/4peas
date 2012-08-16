@@ -32,6 +32,10 @@ getResults pageNumber conditions = do
 getHomePageR :: Int -> Handler RepHtml
 getHomePageR pageNumber = do
     recipes <- getResults pageNumber []
+    mId <- maybeAuthId
+    case mId of
+        Nothing -> setMessageI MsgHomeIntro
+        Just _ -> return ()
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgHomePageTitle
