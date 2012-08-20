@@ -19,7 +19,7 @@ function addIngredient(id, name)
         <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />")
 }
 
-function deleteIngredient(ele)
+function deleteListEntry(ele)
 {
     p = ele.parentNode;
     p.parentNode.removeChild(p);
