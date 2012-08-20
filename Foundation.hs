@@ -222,7 +222,9 @@ instance RenderMessage App FormMessage where
 -- https://github.com/yesodweb/yesod/wiki/Sending-email
 
 -- TODO: there has to be a way to not need so much code here.
---localizedUnit :: forall s. IngredientUnit -> GWidget s App FieldSettings App
+localizedUnit :: forall sub master.
+                                RenderMessage master AppMessage =>
+                                IngredientUnit -> GWidget sub master ()
 localizedUnit None = [whamlet| _{MsgUnitNone}|]
 localizedUnit Teaspoon = [whamlet| _{MsgUnitTeaspoon}|]
 localizedUnit Tablespoon = [whamlet| _{MsgUnitTablespoon}|]
