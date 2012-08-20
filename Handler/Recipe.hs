@@ -14,10 +14,7 @@ getRecipeR recipeId = do
         recipe <- get404 recipeId
         from <- get404 $ recipeOwner recipe
         ingredients <- selectList [IngredientRecipe ==. recipeId] [] >>= mapM (\(Entity _ i) -> do
-            unit <- case (ingredientIngredientUnit i) of
-                Nothing -> return Nothing
-                Just u -> get $ u
-            return (ingredientAmount i, unit, ingredientName i))
+            return (ingredientAmount i, ingredientIngredientUnit i, ingredientName i))
         steps <- selectList [RecipeStepRecipe ==. recipeId] []
         comments <- selectList [RecipeCommentRecipe ==. recipeId] [Asc RecipeCommentPosted]
         commentCount <- count [RecipeCommentRecipe ==. recipeId]

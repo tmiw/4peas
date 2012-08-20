@@ -17,10 +17,7 @@
     <ul class="recipe-ingredients">
         $forall (amount, unit, name) <- ingredients
             <li class="recipe-ingredient">
-                $maybe unitValue <- unit
-                    #{amount} #{unitUnit unitValue} #{name}
-                $nothing
-                    #{amount} #{name}
+                #{amount} ^{localizedUnit unit} #{name}
     
     <div class="recipe-steps-title">
         _{MsgRecipeStepsFormField}

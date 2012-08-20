@@ -17,35 +17,6 @@ module Forms.RecipeForm
 import Import
 import qualified Data.Text as T
 import Data.Text.Read (double)
-import Database.Persist.Store
-import Data.Int (Int64)
-
--- Valid ingredient units.
-data IngredientUnit = 
-    None |
-    Teaspoon | 
-    Tablespoon | 
-    Cup | 
-    Milliliter | 
-    Liter | 
-    Gram | 
-    Kilogram | 
-    Pound | 
-    Ounce 
-    deriving (Eq, Show, Enum);
-
--- TODO: there has to be a way to not need so much code here.
---localizedUnit :: forall s. IngredientUnit -> GWidget s App FieldSettings App
-localizedUnit None = [whamlet| _{MsgUnitNone}|]
-localizedUnit Teaspoon = [whamlet| _{MsgUnitTeaspoon}|]
-localizedUnit Tablespoon = [whamlet| _{MsgUnitTablespoon}|]
-localizedUnit Cup = [whamlet| _{MsgUnitCup}|]
-localizedUnit Milliliter = [whamlet| _{MsgUnitMilliliter}|]
-localizedUnit Liter = [whamlet| _{MsgUnitLiter}|]
-localizedUnit Gram = [whamlet| _{MsgUnitGram}|]
-localizedUnit Kilogram = [whamlet| _{MsgUnitKilogram}|]
-localizedUnit Pound = [whamlet| _{MsgUnitPound}|]
-localizedUnit Ounce = [whamlet| _{MsgUnitOunce}|]
 
 validateTextList :: [Text] -> GHandler sub master (Either (SomeMessage master) (Maybe [Text]))
 validateTextList rawVals =
@@ -101,9 +72,9 @@ validateIngredientList rawVals =
         makeDataObject [_, _] = undefined -- nor this
         makeDataObject (amount:unit:desc:xs) =
             (NewRecipeIngredient (toDoubleType amount) (makeUnitId unit) desc) : makeDataObject xs
-        makeUnitId v | T.length v > 0 = Just $ toIdType v
-                     | otherwise    = Nothing
-        toIdType v = Key $ PersistInt64 $ (read (T.unpack v) :: Int64)
+        makeUnitId v | T.length v > 0 = toIdType v
+                     | otherwise    = None
+        toIdType v = toEnum $ (read (T.unpack v) :: Int)
         toDoubleType v = case (double v) of
             Left errStr -> error errStr
             Right (val, _) -> val
@@ -143,7 +114,7 @@ recipeIngredientsField = Field
 
 data NewRecipeIngredient = NewRecipeIngredient
     { ingredientFieldAmount :: Double
-    , ingredientFieldUnit :: Maybe UnitId
+    , ingredientFieldUnit :: IngredientUnit
     , ingredientFieldDescription :: Text
     }
     deriving Show

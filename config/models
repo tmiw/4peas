@@ -27,13 +27,10 @@ Tag
 RecipeTag
     recipe RecipeId
     tag TagId
-Unit
-    unit Text
-    UniqueUnit unit
 Ingredient
     recipe RecipeId
     amount Double
-    ingredientUnit UnitId Maybe
+    ingredientUnit IngredientUnit
     name Text
 RecipeStep
     recipe RecipeId

@@ -11,6 +11,7 @@ module Foundation
     , maybeAuthId
     , requireAuth
     , prettyTime
+    , localizedUnit
     , module Settings
     , module Model
     ) where
@@ -219,3 +220,16 @@ instance RenderMessage App FormMessage where
 -- wiki:
 --
 -- https://github.com/yesodweb/yesod/wiki/Sending-email
+
+-- TODO: there has to be a way to not need so much code here.
+--localizedUnit :: forall s. IngredientUnit -> GWidget s App FieldSettings App
+localizedUnit None = [whamlet| _{MsgUnitNone}|]
+localizedUnit Teaspoon = [whamlet| _{MsgUnitTeaspoon}|]
+localizedUnit Tablespoon = [whamlet| _{MsgUnitTablespoon}|]
+localizedUnit Cup = [whamlet| _{MsgUnitCup}|]
+localizedUnit Milliliter = [whamlet| _{MsgUnitMilliliter}|]
+localizedUnit Liter = [whamlet| _{MsgUnitLiter}|]
+localizedUnit Gram = [whamlet| _{MsgUnitGram}|]
+localizedUnit Kilogram = [whamlet| _{MsgUnitKilogram}|]
+localizedUnit Pound = [whamlet| _{MsgUnitPound}|]
+localizedUnit Ounce = [whamlet| _{MsgUnitOunce}|]
