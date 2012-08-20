@@ -1,23 +1,15 @@
 function addGenericListEntry(id, name)
 {
-    $('#' + id).append("\
-    <li>\
-        <input type=\"text\" name=\"" + name + "\" value=\"\" />\
-        <img class=\"dyn_list_element_icon\" src=\"@{StaticR img_delete_png}\" onClick=\"deleteListEntry(this);\">\
-    </li>");
-}
-
-function addIngredient(id, name)
-{
-    $('#' + id).append("\
-    <li>\
-        <input class=\"dyn_list_element_quantity\" name=\"" + name + "\" type=\"text\" value=\"\" />\
-        <select class=\"dyn_list_element\" name=\"" + name + "\">\
-            <option value=\"0\" selected />\
-        </select>\
-        <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />\
-        <img class=\"dyn_list_element_icon\" src=\"@{StaticR img_delete_png}\" onClick=\"deleteListEntry(this);\">\
-    </li>")
+    var newElement = $('#_tmpl_' + id).clone();
+    
+    // Zero out style and ID attributes to make the item appear.
+    newElement.attr("style", "");
+    newElement.attr("id", "");
+    
+    // Add name to form fields.
+    newElement.children(":input").attr("name", name);
+    
+    $('#' + id).append(newElement);
 }
 
 function deleteListEntry(ele)

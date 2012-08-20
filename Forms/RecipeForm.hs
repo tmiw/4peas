@@ -38,6 +38,9 @@ recipeTextListField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
 <div class="dyn_list">
+    <li id=_tmpl_#{idAttr} style="display: none;">
+        <input type="text">
+        <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
     <ol id=#{idAttr}>
         $case eResult
             $of Left errVal
@@ -83,6 +86,12 @@ recipeIngredientsField = Field
     { fieldParse = validateIngredientList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
 <div class="dyn_list">
+    <li id=_tmpl_#{idAttr} style="display: none;">
+        <input class="dyn_list_element_quantity" type="text">
+        <select class="dyn_list_element">
+            <option value="0" selected>
+        <input class="dyn_list_element" type="text">
+        <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
     <ol id=#{idAttr} class="recipeIngredients">
         $case eResult
             $of Left errVal
@@ -98,7 +107,7 @@ recipeIngredientsField = Field
                             <option value="0" selected>
                         <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
-    <input type="button" name=#{idAttr}-add value=_{MsgAddButton} onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
