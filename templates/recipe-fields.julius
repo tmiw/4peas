@@ -1,6 +1,10 @@
 function addGenericListEntry(id, name)
 {
-    $('#' + id).append("<li><input type=\"text\" name=\"" + name + "\" value=\"\" /></li>");
+    $('#' + id).append("\
+    <li>\
+        <input type=\"text\" name=\"" + name + "\" value=\"\" />\
+        <img class=\"dyn_list_element_icon\" src=\"@{StaticR img_delete_png}\" onClick=\"deleteListEntry(this);\">\
+    </li>");
 }
 
 function addIngredient(id, name)
@@ -12,6 +16,7 @@ function addIngredient(id, name)
             <option value=\"0\" selected />\
         </select>\
         <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />\
+        <img class=\"dyn_list_element_icon\" src=\"@{StaticR img_delete_png}\" onClick=\"deleteListEntry(this);\">\
     </li>")
 }
 
