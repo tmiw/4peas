@@ -37,6 +37,7 @@ getNewRecipeR = do
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgNewRecipePageTitle
+        $(widgetFile "recipe-fields")
         $(widgetFile "new-recipe")
 
 getDeleteRecipeR :: RecipeId -> Handler RepHtml
@@ -63,6 +64,7 @@ getEditRecipeR rId = do
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgEditRecipePageTitle
+        $(widgetFile "recipe-fields")
         $(widgetFile "edit-recipe")
 
 postConfirmDeleteRecipeR :: RecipeId -> Handler RepHtml
