@@ -1,3 +1,4 @@
+{-# LANGUAGE ExistentialQuantification #-}
 module Foundation
     ( App (..)
     , Route (..)
@@ -141,6 +142,15 @@ instance Yesod App where
     isAuthorized (ConfirmDeleteRecipeR rId) _ = ownRecipeOnly rId
     isAuthorized _ _ = return Authorized
 
+ownRecipeOnly :: forall m s.
+                                (YesodPersist m,
+                                 PersistQuery (YesodPersistBackend m) (GHandler s m), YesodAuth m,
+                                 AuthId m
+                                 ~ Key
+                                     (YesodPersistBackend m)
+                                     (UserGeneric (YesodPersistBackend m))) =>
+                                Key (YesodPersistBackend m) (RecipeGeneric (YesodPersistBackend m))
+                                -> GHandler s m AuthResult
 ownRecipeOnly rId = do
     mauth <- maybeAuth
     case mauth of

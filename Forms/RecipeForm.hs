@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings, TypeFamilies, QuasiQuotes,
-             TemplateHaskell, MultiParamTypeClasses #-}
+             TemplateHaskell, MultiParamTypeClasses, ExistentialQuantification #-}
 module Forms.RecipeForm
     ( recipeForm,
       NewRecipeIngredient(NewRecipeIngredient),
@@ -33,7 +33,7 @@ validateTextList rawVals =
         filterVals vals = filter lengthNonZero vals
         lengthNonZero v = (T.length v) > 0
 
---recipeStepsField :: (RenderMessage master AppMessage) => Field sub master [Text]
+recipeStepsField :: forall sub. Field sub App [Text]
 recipeStepsField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
@@ -54,7 +54,7 @@ recipeStepsField = Field
 |]
     }
 
---recipeTagsField :: (RenderMessage master AppMessage) => Field sub master [Text]
+recipeTagsField :: forall sub. Field sub App [Text]
 recipeTagsField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
@@ -99,7 +99,7 @@ validateIngredientList rawVals =
             Left errStr -> error errStr
             Right (val, _) -> val
         
---recipeIngredientsField :: (RenderMessage master AppMessage) => Field sub master [NewRecipeIngredient]
+recipeIngredientsField :: forall sub. Field sub App [NewRecipeIngredient]
 recipeIngredientsField = Field
     { fieldParse = validateIngredientList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
