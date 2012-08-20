@@ -33,12 +33,12 @@ validateTextList rawVals =
         filterVals vals = filter lengthNonZero vals
         lengthNonZero v = (T.length v) > 0
 
-recipeStepsField :: forall sub. Field sub App [Text]
-recipeStepsField = Field
+recipeTextListField :: forall sub. Field sub App [Text]
+recipeTextListField = Field
     { fieldParse = validateTextList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
 <div class="dyn_list">
-    <ol id=#{idAttr} class="recipeSteps">
+    <ol id=#{idAttr}>
         $case eResult
             $of Left errVal
                 $if T.null errVal
@@ -50,28 +50,7 @@ recipeStepsField = Field
                     <li>
                         <input name=#{nameAttr} type="text" value=#{val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
-    <input type="button" name=#{idAttr}-add value=_{MsgAddStepButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
-|]
-    }
-
-recipeTagsField :: forall sub. Field sub App [Text]
-recipeTagsField = Field
-    { fieldParse = validateTextList
-    , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
-<div class="dyn_list">
-    <ol id=#{idAttr} class="recipeTags">
-        $case eResult
-            $of Left errVal
-                $if T.null errVal
-                
-                $else
-                    <li>#{errVal}
-            $of Right listVal
-                $forall val <- listVal
-                    <li>
-                        <input name=#{nameAttr} type="text" value=#{val}>
-                        <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
-    <input type="button" name=#{idAttr}-add value=_{MsgAddTagButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
@@ -119,7 +98,7 @@ recipeIngredientsField = Field
                             <option value="0" selected>
                         <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
-    <input type="button" name=#{idAttr}-add value=_{MsgAddIngredientButton} onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddButton} onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
@@ -148,8 +127,8 @@ recipeForm r = renderDivs $ NewRecipe
     <$> areq textField (fieldSettingsLabel MsgRecipeNameFormField) (recipeNameFieldValue r)
     <*> areq textareaField (fieldSettingsLabel MsgRecipeDescriptionFormField) (recipeDescriptionFieldValue r)
     <*> areq recipeIngredientsField (fieldSettingsLabel MsgRecipeIngredientsFormField) (recipeIngredientsFieldValue r)
-    <*> areq recipeStepsField (fieldSettingsLabel MsgRecipeStepsFormField) (recipeStepsFieldValue r)
-    <*> areq recipeTagsField (fieldSettingsLabel MsgRecipeTagsFormField) (recipeTagsFieldValue r)
+    <*> areq recipeTextListField (fieldSettingsLabel MsgRecipeStepsFormField) (recipeStepsFieldValue r)
+    <*> areq recipeTextListField (fieldSettingsLabel MsgRecipeTagsFormField) (recipeTagsFieldValue r)
     where
         recipeNameFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeName
         recipeDescriptionFieldValue recipe = maybeCallFunc recipe Forms.RecipeForm.recipeDescription

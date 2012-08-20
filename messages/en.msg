@@ -20,9 +20,7 @@ RecipeStepsFormField: Steps:
 RecipeIngredientsFormField: Ingredients:
 RecipeTagsFormField: Tags:
 CommentFormField: Comment:
-AddStepButton: Add Step
-AddIngredientButton: Add Ingredient
-AddTagButton: Add Tag
+AddButton: Add
 
 NotLoggedInComment: You must be logged in to post comments.
 
