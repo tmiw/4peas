@@ -97,7 +97,7 @@ validateIngredientList rawVals =
             Left errStr -> error errStr
             Right (val, _) -> val
         
-recipeIngredientsField :: (RenderMessage master AppMessage) => Field sub master [NewRecipeIngredient]
+--recipeIngredientsField :: (RenderMessage master AppMessage) => Field sub master [NewRecipeIngredient]
 recipeIngredientsField = Field
     { fieldParse = validateIngredientList
     , fieldView = \idAttr nameAttr _ eResult _ -> [whamlet|
@@ -116,6 +116,7 @@ recipeIngredientsField = Field
                         <select class="dyn_list_element" name=#{nameAttr}>
                             <option value="0" selected>
                         <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
+                        <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteIngredient(this);">
     <input type="button" name=#{idAttr}-add value=_{MsgAddIngredientButton} onClick="addIngredient('#{idAttr}', '#{nameAttr}')";>
 |]
     }

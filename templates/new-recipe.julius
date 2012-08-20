@@ -18,3 +18,9 @@ function addIngredient(id, name)
         </select>\
         <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />")
 }
+
+function deleteIngredient(ele)
+{
+    p = ele.parentNode;
+    p.parentNode.removeChild(p);
+}

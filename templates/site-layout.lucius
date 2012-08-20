@@ -72,6 +72,12 @@ div .dyn_list {
     width: 30px;
 }
 
+.dyn_list_element_icon {
+    display: inline;
+    width: 20px;
+    height: 20px;
+}
+
 footer {
     background-color: white;
 }
