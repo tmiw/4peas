@@ -50,7 +50,7 @@ recipeStepsField = Field
                     <li>
                         <input name=#{nameAttr} type="text" value=#{val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
-    <input type="button" name=#{idAttr}-add value=_{MsgAddStepButton} onClick="addStep('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddStepButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
@@ -71,7 +71,7 @@ recipeTagsField = Field
                     <li>
                         <input name=#{nameAttr} type="text" value=#{val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
-    <input type="button" name=#{idAttr}-add value=_{MsgAddTagButton} onClick="addTag('#{idAttr}', '#{nameAttr}')";>
+    <input type="button" name=#{idAttr}-add value=_{MsgAddTagButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
 |]
     }
 
