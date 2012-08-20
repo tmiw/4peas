@@ -104,7 +104,10 @@ recipeIngredientsField = Field
                         <input class="dyn_list_element_quantity" name=#{nameAttr} type="text" value=#{ingredientFieldAmount val}>
                         <select class="dyn_list_element" name=#{nameAttr}>
                             $forall unit <- allUnits
-                                <option value=#{fromEnum unit}>^{localizedUnit unit}
+                                $if isUnitEqual unit (ingredientFieldUnit val)
+                                    <option value=#{fromEnum unit} selected>^{localizedUnit unit}
+                                $else
+                                    <option value=#{fromEnum unit}>^{localizedUnit unit}
                         <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
     <input type="button" name=#{idAttr}-add value=_{MsgAddButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
