@@ -11,7 +11,8 @@ function addIngredient(id, name)
         <select class=\"dyn_list_element\" name=\"" + name + "\">\
             <option value=\"0\" selected />\
         </select>\
-        <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />")
+        <input class=\"dyn_list_element\" name=\"" + name + "\" type=\"text\" value=\"\" />\
+    </li>")
 }
 
 function deleteListEntry(ele)
