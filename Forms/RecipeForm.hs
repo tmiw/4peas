@@ -20,6 +20,33 @@ import Data.Text.Read (double)
 import Database.Persist.Store
 import Data.Int (Int64)
 
+-- Valid ingredient units.
+data IngredientUnit = 
+    None |
+    Teaspoon | 
+    Tablespoon | 
+    Cup | 
+    Milliliter | 
+    Liter | 
+    Gram | 
+    Kilogram | 
+    Pound | 
+    Ounce 
+    deriving (Eq, Show, Enum);
+
+-- TODO: there has to be a way to not need so much code here.
+--localizedUnit :: forall s. IngredientUnit -> GWidget s App FieldSettings App
+localizedUnit None = [whamlet| _{MsgUnitNone}|]
+localizedUnit Teaspoon = [whamlet| _{MsgUnitTeaspoon}|]
+localizedUnit Tablespoon = [whamlet| _{MsgUnitTablespoon}|]
+localizedUnit Cup = [whamlet| _{MsgUnitCup}|]
+localizedUnit Milliliter = [whamlet| _{MsgUnitMilliliter}|]
+localizedUnit Liter = [whamlet| _{MsgUnitLiter}|]
+localizedUnit Gram = [whamlet| _{MsgUnitGram}|]
+localizedUnit Kilogram = [whamlet| _{MsgUnitKilogram}|]
+localizedUnit Pound = [whamlet| _{MsgUnitPound}|]
+localizedUnit Ounce = [whamlet| _{MsgUnitOunce}|]
+
 validateTextList :: [Text] -> GHandler sub master (Either (SomeMessage master) (Maybe [Text]))
 validateTextList rawVals =
     if any lengthNonZero rawVals then
@@ -89,7 +116,8 @@ recipeIngredientsField = Field
     <li id=_tmpl_#{idAttr} style="display: none;">
         <input class="dyn_list_element_quantity" type="text">
         <select class="dyn_list_element">
-            <option value="0" selected>
+            $forall unit <- allUnits
+                <option value=#{fromEnum unit}>^{localizedUnit unit}
         <input class="dyn_list_element" type="text">
         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
     <ol id=#{idAttr} class="recipeIngredients">
@@ -104,12 +132,14 @@ recipeIngredientsField = Field
                     <li>
                         <input class="dyn_list_element_quantity" name=#{nameAttr} type="text" value=#{ingredientFieldAmount val}>
                         <select class="dyn_list_element" name=#{nameAttr}>
-                            <option value="0" selected>
+                            $forall unit <- allUnits
+                                <option value=#{fromEnum unit}>^{localizedUnit unit}
                         <input class="dyn_list_element" name=#{nameAttr} type="text" value=#{ingredientFieldDescription val}>
                         <img class="dyn_list_element_icon" src=@{StaticR img_delete_png} onClick="deleteListEntry(this);">
     <input type="button" name=#{idAttr}-add value=_{MsgAddButton} onClick="addGenericListEntry('#{idAttr}', '#{nameAttr}')";>
 |]
-    }
+    } where 
+        allUnits = enumFrom None
 
 data NewRecipeIngredient = NewRecipeIngredient
     { ingredientFieldAmount :: Double

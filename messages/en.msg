@@ -30,3 +30,14 @@ LogoutLink: Logout
 NoneYet: None yet.
 
 ConfirmDeletePrompt: Are you sure you want to delete this recipe?
+
+UnitNone:
+UnitTeaspoon: teaspoon(s)
+UnitTablespoon: tablespoon(s)
+UnitCup: cup(s)
+UnitMilliliter: milliliter(s)
+UnitLiter: liter(s)
+UnitGram: gram(s)
+UnitKilogram: kilogram(s)
+UnitPound: pound(s)
+UnitOunce: ounce(s)
