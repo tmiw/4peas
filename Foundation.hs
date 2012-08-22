@@ -122,7 +122,7 @@ instance Yesod App where
             addStylesheet $ StaticR css_bootstrap_css
             $(widgetFile "default-layout")
             $(widgetFile "site-layout")
-        pageVersion <- widgetToPageContent $ [whamlet| _{MsgSoftwareVersion appVersionAsText} |]
+        pageVersion <- widgetToPageContent $ $(widgetFile "site-version")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- This is done to provide an optimization for serving static files from
