@@ -43,3 +43,10 @@ UnitPound: pound(s)
 UnitOunce: ounce(s)
 
 SoftwareVersion vNum@String: 4peas version #{vNum}
+
+HomePageName: Home
+AboutPageName: About
+NewRecipePageName: New Recipe
+LogoutPageName: Logout
+LoginPageName: Login
+HelpPageName: Help

@@ -1,15 +1,15 @@
 <ul class="nav-bar">
     <li class="nav-bar-item">
-        <a href=@{HomeR}>Home
+        <a href=@{HomeR}>_{MsgHomePageName}
     <li class="nav-bar-item">
-        About
+        _{MsgAboutPageName}
     $maybe _ <- maid
         <li class="nav-bar-item">
-            <a href=@{NewRecipeR}>New Recipe
+            <a href=@{NewRecipeR}>_{MsgNewRecipePageName}
         <li class="nav-bar-item">
-            <a href=@{AuthR LogoutR}>Logout
+            <a href=@{AuthR LogoutR}>_{MsgLogoutPageName}
     $nothing
         <li class="nav-bar-item">
-            <a href=@{AuthR LoginR}>Login
+            <a href=@{AuthR LoginR}>_{MsgLoginPageName}
     <li class="nav-bar-item">
-        Help
+        _{MsgHelpPageName}
