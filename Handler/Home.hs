@@ -2,6 +2,7 @@
 module Handler.Home where
 
 import Import
+import Yesod.Auth(requireAuthId)
 
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
@@ -29,6 +30,24 @@ getResults pageNumber conditions = do
         return $ (RecipeUIEntry (rId, r) from commentCount tags)
         )
 
+getMyRecipesR :: Handler RepHtml
+getMyRecipesR = getMyRecipePageR 1
+
+getMyRecipePageR :: Int -> Handler RepHtml
+getMyRecipePageR pageNumber = do
+    authId <- requireAuthId
+    recipes <- getResults pageNumber [RecipeOwner ==. authId]
+    defaultLayout $ do
+        aDomId <- lift newIdent
+        setTitleI $ MsgHomePageTitle
+        $(widgetFile "homepage")
+    where
+        isMyPage = True
+        isNotFirstPage pn = if (pn > 1) then True else False
+        isNotLastPage r = if ((length r) < resultsPerPage) then False else True
+        nextPageNumber = pageNumber + 1
+        prevPageNumber = pageNumber - 1
+        
 getHomePageR :: Int -> Handler RepHtml
 getHomePageR pageNumber = do
     recipes <- getResults pageNumber []
@@ -41,6 +60,7 @@ getHomePageR pageNumber = do
         setTitleI $ MsgHomePageTitle
         $(widgetFile "homepage")
     where
+        isMyPage = False
         isNotFirstPage pn = if (pn > 1) then True else False
         isNotLastPage r = if ((length r) < resultsPerPage) then False else True
         nextPageNumber = pageNumber + 1
@@ -58,6 +78,7 @@ getHomeTagPageR tag pageNumber = do
         setTitleI $ MsgHomePageTitle
         $(widgetFile "homepage")
     where
+        isMyPage = False
         isNotFirstPage pn = if (pn > 1) then True else False
         isNotLastPage r = if ((length r) < resultsPerPage) then False else True
         nextPageNumber = pageNumber + 1

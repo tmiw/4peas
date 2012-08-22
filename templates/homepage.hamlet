@@ -27,12 +27,20 @@ $else
                             
 <div class="previous-page">
     $if isNotFirstPage pageNumber 
-        <a href=@{HomePageR prevPageNumber}>
-            _{MsgPreviousPage}
+        $if isMyPage
+            <a href=@{MyRecipePageR prevPageNumber}>
+                _{MsgPreviousPage}
+        $else
+            <a href=@{HomePageR prevPageNumber}>
+                _{MsgPreviousPage}
     $else
 
 <div class="next-page">
     $if isNotLastPage recipes
-        <a href=@{HomePageR nextPageNumber}>
-            _{MsgNextPage}
+        $if isMyPage
+            <a href=@{MyRecipePageR nextPageNumber}>
+                _{MsgNextPage}
+        $else
+            <a href=@{HomePageR nextPageNumber}>
+                _{MsgNextPage}
     $else

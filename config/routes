@@ -6,6 +6,8 @@
 
 / HomeR GET
 /home/#Int HomePageR GET
+/my MyRecipesR GET
+/my/#Int MyRecipePageR GET
 
 /tag/#Text HomeTagR GET
 /tag/#Text/#Int HomeTagPageR GET

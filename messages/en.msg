@@ -47,6 +47,7 @@ SoftwareVersion vNum@String: 4peas version #{vNum}
 HomePageName: Home
 AboutPageName: About
 NewRecipePageName: New Recipe
+MyRecipesPageName: My Recipes
 LogoutPageName: Logout
 LoginPageName: Login
 HelpPageName: Help

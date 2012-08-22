@@ -7,6 +7,8 @@
         <li class="nav-bar-item">
             <a href=@{NewRecipeR}>_{MsgNewRecipePageName}
         <li class="nav-bar-item">
+            <a href=@{MyRecipesR}>_{MsgMyRecipesPageName}
+        <li class="nav-bar-item">
             <a href=@{AuthR LogoutR}>_{MsgLogoutPageName}
     $nothing
         <li class="nav-bar-item">
