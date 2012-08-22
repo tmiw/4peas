@@ -99,6 +99,9 @@ div .recipe-author {
 }
 
 div .recipe-nav {
+    top: 0px;
+    padding-right: 5px;
+    position: relative;
     float: right;
 }
 div .page-copyright {

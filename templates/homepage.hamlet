@@ -3,21 +3,21 @@ $if null recipes
 $else
     $forall RecipeUIEntry recipe from commentCount tags <- recipes
         <div class="recipe-block">
-            <div class="recipe-name">
-                <a href=@{RecipeR (fst recipe)}>
-                    #{recipeName (snd recipe)}
             $maybe loginId <- mId
                 $if ownThisRecipe (snd recipe) loginId
                     <div class="recipe-nav">
                         <a href=@{EditRecipeR (fst recipe)}>
                             _{MsgEditRecipePageName}
-                        |
+                        \ | #
                         <a href=@{DeleteRecipeR (fst recipe)}>
                             _{MsgDeleteRecipePageName}
                 $else
                     <!-- not owned by you -->
             $nothing
                 <!-- not logged in -->
+            <div class="recipe-name">
+                <a href=@{RecipeR (fst recipe)}>
+                    #{recipeName (snd recipe)}
             <div class="recipe-author">
                 _{MsgRecipeAuthorBy} 
                 <a>
