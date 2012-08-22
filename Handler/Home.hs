@@ -14,6 +14,9 @@ import Yesod.Auth(requireAuthId)
 
 data RecipeUIEntry = RecipeUIEntry (RecipeId, Recipe) (UserId, User) Int [Entity Tag]
 
+ownThisRecipe :: Recipe -> UserId -> Bool
+ownThisRecipe r uId = (recipeOwner r) == uId
+
 resultsPerPage :: Int
 resultsPerPage = 10
 
