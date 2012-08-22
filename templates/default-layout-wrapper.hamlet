@@ -25,21 +25,7 @@
         <div class="container">
             <header>
                 <img class="logo" src=@{StaticR img_logo_png}>
-                <ul class="nav-bar">
-                    <li class="nav-bar-item">
-                        <a href=@{HomeR}>Home
-                    <li class="nav-bar-item">
-                        About
-                    $maybe _ <- maid
-                        <li class="nav-bar-item">
-                            <a href=@{NewRecipeR}>New Recipe
-                        <li class="nav-bar-item">
-                            <a href=@{AuthR LogoutR}>Logout
-                    $nothing
-                        <li class="nav-bar-item">
-                            <a href=@{AuthR LoginR}>Login
-                    <li class="nav-bar-item">
-                        Help
+                ^{pageBody navBar}
 
             <div id="main" role="main">
               <h3>

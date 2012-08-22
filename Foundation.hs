@@ -123,6 +123,7 @@ instance Yesod App where
             $(widgetFile "default-layout")
             $(widgetFile "site-layout")
         pageVersion <- widgetToPageContent $ $(widgetFile "site-version")
+        navBar <- widgetToPageContent $ $(widgetFile "nav-bar")
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- This is done to provide an optimization for serving static files from
