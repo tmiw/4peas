@@ -37,6 +37,7 @@ getMyRecipePageR :: Int -> Handler RepHtml
 getMyRecipePageR pageNumber = do
     authId <- requireAuthId
     recipes <- getResults pageNumber [RecipeOwner ==. authId]
+    mId <- maybeAuthId
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgHomePageTitle
@@ -73,6 +74,7 @@ getHomeTagPageR tag pageNumber = do
         return $ getTagId tmpTag
     recipeTags <- runDB $ selectList [RecipeTagTag ==. tagId] [] >>= mapM (\(Entity _ rt) -> return $ recipeTagRecipe rt)
     recipes <- getResults pageNumber [RecipeId <-. recipeTags]
+    mId <- maybeAuthId
     defaultLayout $ do
         aDomId <- lift newIdent
         setTitleI $ MsgHomePageTitle

@@ -51,3 +51,6 @@ MyRecipesPageName: My Recipes
 LogoutPageName: Logout
 LoginPageName: Login
 HelpPageName: Help
+
+EditRecipePageName: edit
+DeleteRecipePageName: delete

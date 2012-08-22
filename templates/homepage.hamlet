@@ -6,6 +6,15 @@ $else
             <div class="recipe-name">
                 <a href=@{RecipeR (fst recipe)}>
                     #{recipeName (snd recipe)}
+            $maybe _ <- mId
+                <div class="recipe-nav">
+                    <a href=@{EditRecipeR (fst recipe)}>
+                        _{MsgEditRecipePageName}
+                    |
+                    <a href=@{DeleteRecipeR (fst recipe)}>
+                        _{MsgDeleteRecipePageName}
+            $nothing
+                <!-- not logged in -->
             <div class="recipe-author">
                 _{MsgRecipeAuthorBy} 
                 <a>

@@ -98,6 +98,9 @@ div .recipe-author {
     font-style: italic;
 }
 
+div .recipe-nav {
+    float: right;
+}
 div .page-copyright {
     float: right;
 }
