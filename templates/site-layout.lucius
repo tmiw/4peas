@@ -97,3 +97,7 @@ div .recipe-name {
 div .recipe-author {
     font-style: italic;
 }
+
+div .page-copyright {
+    float: right;
+}

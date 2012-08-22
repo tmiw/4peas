@@ -25,6 +25,7 @@ library
                      Foundation
                      Import
                      Model
+                     Paths_4peas
                      Settings
                      Settings.StaticFiles
                      Settings.Development
@@ -43,7 +44,6 @@ library
     extensions: TemplateHaskell
                 QuasiQuotes
                 OverloadedStrings
-                NoImplicitPrelude
                 CPP
                 MultiParamTypeClasses
                 TypeFamilies

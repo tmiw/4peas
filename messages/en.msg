@@ -41,3 +41,5 @@ UnitGram: gram(s)
 UnitKilogram: kilogram(s)
 UnitPound: pound(s)
 UnitOunce: ounce(s)
+
+SoftwareVersion vNum@String: 4peas version #{vNum}

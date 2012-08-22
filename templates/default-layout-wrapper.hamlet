@@ -46,7 +46,9 @@
                 #{pageTitle pc}
               ^{pageBody pc}
             <footer>
-                #{extraCopyright $ appExtra $ settings master}
+                ^{pageBody pageVersion}
+                <div class="page-copyright">
+                    #{extraCopyright $ appExtra $ settings master}
 
         $maybe analytics <- extraAnalytics $ appExtra $ settings master
             <script>

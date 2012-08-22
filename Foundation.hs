@@ -41,10 +41,19 @@ import Data.Time
 import System.Locale
 import qualified Facebook as FB
 import qualified Data.ByteString.Char8 as BS
+import Data.Version(versionBranch)
+import Paths_4peas(version)
 
 -- Emits string representation of the passed in time value.
 prettyTime :: UTCTime -> String
 prettyTime = formatTime defaultTimeLocale "%B %e, %Y %r"
+
+-- Current version of application
+appVersionAsText :: String
+appVersionAsText = joinVersionComponents $ map show $ versionBranch version
+    where joinVersionComponents [] = ""
+          joinVersionComponents (x:[]) = x
+          joinVersionComponents (x:xs) = x ++ "." ++ joinVersionComponents xs
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -113,6 +122,7 @@ instance Yesod App where
             addStylesheet $ StaticR css_bootstrap_css
             $(widgetFile "default-layout")
             $(widgetFile "site-layout")
+        pageVersion <- widgetToPageContent $ [whamlet| _{MsgSoftwareVersion appVersionAsText} |]
         hamletToRepHtml $(hamletFile "templates/default-layout-wrapper.hamlet")
 
     -- This is done to provide an optimization for serving static files from
